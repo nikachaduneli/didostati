@@ -1,0 +1,85 @@
+{% extends "admin/base.html" %}
+{% load i18n static %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block extrastyle %}{{ block.super }}
+<meta name="color-scheme" content="light">
+<style>
+  :root, html[data-theme="dark"], html[data-theme="auto"] {
+    color-scheme: light;
+    --primary: #5f7f69;
+    --secondary: #709683;
+    --accent: #f2b880;
+    --primary-fg: #fff;
+    --body-fg: #3a4650;
+    --body-bg: #f7f9fa;
+    --body-quiet-color: #6b7a86;
+    --body-loud-color: #1f2a33;
+    --header-color: #fff;
+    --header-branding-color: #fff;
+    --header-bg: #7fa896;
+    --header-link-color: #fff;
+    --breadcrumbs-fg: #e8f2ed;
+    --breadcrumbs-link-fg: #fff;
+    --breadcrumbs-bg: #94b8a7;
+    --link-fg: #3b7a5e;
+    --link-hover-color: #2a5c46;
+    --link-selected-fg: #2a5c46;
+    --hairline-color: #e3e8ec;
+    --border-color: #d5dde3;
+    --error-fg: #c0392b;
+    --message-success-bg: #e3f4ea;
+    --message-warning-bg: #fff4dc;
+    --message-error-bg: #fde8e6;
+    --darkened-bg: #f0f4f6;
+    --selected-bg: #e6f0ea;
+    --selected-row: #fff8e1;
+    --button-fg: #fff;
+    --button-bg: #6d8f7a;
+    --button-hover-bg: #5a7a67;
+    --default-button-bg: #4f8a6b;
+    --default-button-hover-bg: #3f7357;
+    --close-button-bg: #8a99a4;
+    --close-button-hover-bg: #6b7a86;
+    --delete-button-bg: #d9695f;
+    --delete-button-hover-bg: #c0524a;
+    --object-tools-fg: #fff;
+    --object-tools-bg: #8a99a4;
+    --object-tools-hover-bg: #6b7a86;
+  }
+  body { background: var(--body-bg); }
+  #header { box-shadow: 0 1px 4px rgba(0,0,0,.08); }
+  .module, .module h2, .module caption, .inline-group h2 { border-radius: 6px; }
+  .module { background: #fff; border: 1px solid var(--hairline-color); }
+  #user-tools { display: flex; align-items: center; }
+  .lang-switch { display: inline-flex; gap: 4px; margin-right: 12px; vertical-align: middle; }
+  .lang-switch form { display: inline; margin: 0; }
+  .lang-switch button {
+    background: rgba(255,255,255,.25); color: #fff; border: 0; border-radius: 4px;
+    padding: 3px 9px; cursor: pointer; font-size: 12px; font-weight: 600;
+  }
+  .lang-switch button.active { background: #fff; color: #3b7a5e; }
+  .theme-toggle { display: none; }
+</style>
+{% endblock %}
+
+{% block branding %}
+<div id="site-name"><a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a></div>
+{% endblock %}
+
+{% block usertools %}
+<span class="lang-switch">
+    {% get_current_language as CURRENT %}
+    {% for code, name in LANGUAGES %}
+      <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+        <input type="hidden" name="language" value="{{ code }}">
+        <button type="submit" class="{% if code == CURRENT %}active{% endif %}">{{ code|upper }}</button>
+      </form>
+    {% endfor %}
+</span>
+{{ block.super }}
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

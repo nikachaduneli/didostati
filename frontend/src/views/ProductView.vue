@@ -1,0 +1,123 @@
+<script setup>
+import { t } from '../i18n'
+import { money } from '../config'
+import { computed, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { api } from '../api'
+import { useCart } from '../stores/cart'
+import PriceTag from '../components/PriceTag.vue'
+
+const route = useRoute()
+const router = useRouter()
+const cart = useCart()
+const product = ref(null)
+const missing = ref(false)
+const color = ref(null)
+const quantity = ref(1)
+const active = ref(0)
+const added = ref(false)
+
+api(`/products/${route.params.slug}/`)
+  .then((p) => {
+    product.value = p
+    document.title = `${p.name} · Didostati`
+    color.value = p.colors[0] || null
+  })
+  .catch(() => (missing.value = true))
+
+// Pictures tagged with the chosen colour come first; untagged ones are shown for every colour.
+const gallery = computed(() => {
+  const imgs = product.value?.images || []
+  const mine = imgs.filter((i) => !color.value || i.color === null || i.color === color.value.id)
+  return mine.length ? mine : imgs
+})
+const shown = computed(() => gallery.value[active.value]?.image || product.value?.image)
+
+function pick(c) {
+  color.value = c
+  const first = gallery.value.findIndex((i) => i.color === c.id)
+  active.value = first >= 0 ? first : 0
+}
+function add(go) {
+  cart.add(product.value, color.value, quantity.value)
+  if (go) router.push('/cart')
+  else {
+    added.value = true
+    setTimeout(() => (added.value = false), 1800)
+  }
+}
+</script>
+
+<template>
+  <p v-if="missing" class="card center">{{ t('This product could not be found.') }} <RouterLink to="/shop" class="link">{{ t('Back to shop') }}</RouterLink></p>
+  <div v-else-if="product" class="product">
+    <div>
+      <div class="main"><img v-if="shown" :src="shown" :alt="product.name" /></div>
+      <div v-if="gallery.length > 1" class="thumbs">
+        <img v-for="(g, i) in gallery" :key="g.id" :src="g.image" :class="{ on: i === active }" :alt="`${product.name} ${i + 1}`" @click="active = i" />
+      </div>
+    </div>
+    <div>
+      <RouterLink :to="`/category/${product.category}`" class="muted">{{ product.category_name }}</RouterLink>
+      <h1>{{ product.name }}</h1>
+      <p class="big"><PriceTag :product="product" /> <span v-if="product.discount_percent" class="off">-{{ product.discount_percent }}%</span></p>
+      <div class="desc" v-html="product.description"/>
+
+      <div v-if="product.items?.length" class="includes card">
+        <strong>{{ t('This collection includes:') }}</strong>
+        <RouterLink v-for="i in product.items" :key="i.product.id" :to="`/product/${i.product.slug}`" class="inc">
+          <img v-if="i.product.image" :src="i.product.image" :alt="i.product.name" />
+          <span>{{ i.quantity }} × {{ i.product.name }}</span>
+        </RouterLink>
+        <small v-if="product.items_total > product.final_price" class="muted">
+          {{ t('Bought separately: {n}', { n: money(product.items_total) }) }}
+        </small>
+      </div>
+
+      <div v-if="product.colors.length" class="field">
+        <label>{{ t('Colour:') }} <span class="muted">{{ color?.name }}</span></label>
+        <div class="swatches">
+          <button v-for="c in product.colors" :key="c.id" type="button" :title="c.name" :class="{ on: color?.id === c.id }" :style="{ background: c.hex }" @click="pick(c)"></button>
+        </div>
+      </div>
+      <div class="field qty">
+        <label for="q">{{ t('Quantity') }}</label>
+        <input id="q" v-model.number="quantity" type="number" min="1" max="99" />
+      </div>
+      <div class="actions">
+        <button class="btn" @click="add(false)">{{ added ? t('✓ Added') : t('Add to cart') }}</button>
+        <button class="btn ghost" @click="add(true)">{{ t('Buy now') }}</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.product { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.main { aspect-ratio: 1; background: var(--line); border-radius: var(--radius); overflow: hidden; }
+.main img { width: 100%; height: 100%; object-fit: cover; }
+.thumbs { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+.thumbs img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; }
+.thumbs img.on { border-color: var(--accent); }
+.big { font-size: 1.6rem; }
+.off { background: var(--sale); color: #fff; font-size: .85rem; padding: 2px 9px; border-radius: 999px; vertical-align: middle; }
+.desc { white-space: pre-line; color: var(--muted); }
+.swatches { display: flex; gap: 10px; }
+.swatches button { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--line); cursor: pointer; padding: 0; box-shadow: inset 0 0 0 3px var(--card); }
+.swatches button.on { border-color: var(--accent); }
+.qty { max-width: 110px; }
+.actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.product > * { min-width: 0; }
+@media (max-width: 800px) { .product { grid-template-columns: 1fr; gap: 20px; } }
+@media (max-width: 600px) {
+  .big { font-size: 1.4rem; }
+  .thumbs { flex-wrap: nowrap; overflow-x: auto; }
+  .thumbs img { flex: none; width: 60px; height: 60px; }
+  .swatches button { width: 40px; height: 40px; }
+  .actions .btn { flex: 1 1 100%; text-align: center; }
+}
+.includes { display: flex; flex-direction: column; gap: 8px; margin: 16px 0; padding: 14px; }
+.inc { display: flex; align-items: center; gap: 10px; }
+.inc:hover span { color: var(--accent); }
+.inc img { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; flex: none; }
+</style>

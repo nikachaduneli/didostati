@@ -1,0 +1,235 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: ka\n"
+"Project-Id-Version: didostati\n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Didostati administration"
+msgstr "დიდოსტატი — ადმინისტრირება"
+
+msgid "Picture"
+msgstr "სურათი"
+
+msgid "Swatch"
+msgstr "ნიმუში"
+
+msgid "name"
+msgstr "სახელი"
+
+msgid "name (Georgian)"
+msgstr "სახელი (ქართულად)"
+
+msgid "slug"
+msgstr "სლაგი"
+
+msgid "image"
+msgstr "სურათი"
+
+msgid "description"
+msgstr "აღწერა"
+
+msgid "description (Georgian)"
+msgstr "აღწერა (ქართულად)"
+
+msgid "position"
+msgstr "პოზიცია"
+
+msgid "order"
+msgstr "შეკვეთა"
+
+msgid "Lower numbers appear first."
+msgstr "რაც ნაკლებია, მით უფრო წინ გამოჩნდება."
+
+msgid "category"
+msgstr "კატეგორია"
+
+msgid "categories"
+msgstr "კატეგორიები"
+
+msgid "colour"
+msgstr "ფერი"
+
+msgid "colours"
+msgstr "ფერები"
+
+msgid "hex code"
+msgstr "ჰექს კოდი"
+
+msgid "e.g. #ff0000"
+msgstr "მაგ. #ff0000"
+
+msgid "product"
+msgstr "პროდუქტი"
+
+msgid "products"
+msgstr "პროდუქტები"
+
+msgid "price"
+msgstr "ფასი"
+
+msgid "discount percent"
+msgstr "ფასდაკლება (%)"
+
+msgid "0 = no discount. E.g. 20 takes 20% off the price."
+msgstr "0 = ფასდაკლების გარეშე. მაგ. 20 ნიშნავს 20%-იან ფასდაკლებას."
+
+msgid "popular"
+msgstr "პოპულარული"
+
+msgid "Show in \"Popular products\" on the main page."
+msgstr "გამოჩნდეს მთავარ გვერდზე „პოპულარული პროდუქტების“ სექციაში."
+
+msgid "active"
+msgstr "აქტიური"
+
+msgid "Untick to hide from the shop."
+msgstr "მოხსენით მონიშვნა, რომ მაღაზიაში არ გამოჩნდეს."
+
+msgid "created at"
+msgstr "შექმნის დრო"
+
+msgid "Optional: show this picture when the customer picks this colour."
+msgstr "არასავალდებულო: ეს სურათი გამოჩნდება, როცა მომხმარებელი ამ ფერს აირჩევს."
+
+msgid "product image"
+msgstr "პროდუქტის სურათი"
+
+msgid "product images"
+msgstr "პროდუქტის სურათები"
+
+msgid "\"about\" and \"contact\" are used by the menu."
+msgstr "„about“ და „contact“ გამოიყენება მენიუში."
+
+msgid "title"
+msgstr "სათაური"
+
+msgid "title (Georgian)"
+msgstr "სათაური (ქართულად)"
+
+msgid "content"
+msgstr "შინაარსი"
+
+msgid "content (Georgian)"
+msgstr "შინაარსი (ქართულად)"
+
+msgid "updated at"
+msgstr "განახლების დრო"
+
+msgid "page"
+msgstr "გვერდი"
+
+msgid "pages"
+msgstr "გვერდები"
+
+msgid "cover image"
+msgstr "ყდის სურათი"
+
+msgid "excerpt"
+msgstr "მოკლე აღწერა"
+
+msgid "excerpt (Georgian)"
+msgstr "მოკლე აღწერა (ქართულად)"
+
+msgid "Short teaser shown on cards."
+msgstr "მოკლე ტექსტი, რომელიც ბარათებზე ჩანს."
+
+msgid "published"
+msgstr "გამოქვეყნებული"
+
+msgid "blog post"
+msgstr "ბლოგის პოსტი"
+
+msgid "blog posts"
+msgstr "ბლოგის პოსტები"
+
+msgid "email"
+msgstr "ელფოსტა"
+
+msgid "message"
+msgstr "შეტყობინება"
+
+msgid "contact message"
+msgstr "შეტყობინება კონტაქტიდან"
+
+msgid "contact messages"
+msgstr "შეტყობინებები კონტაქტიდან"
+
+msgid "full name"
+msgstr "სრული სახელი"
+
+msgid "phone"
+msgstr "ტელეფონი"
+
+msgid "address"
+msgstr "მისამართი"
+
+msgid "address 2"
+msgstr "მისამართი 2"
+
+msgid "city"
+msgstr "ქალაქი"
+
+msgid "postal code"
+msgstr "საფოსტო ინდექსი"
+
+msgid "country"
+msgstr "ქვეყანა"
+
+msgid "label"
+msgstr "სახელი"
+
+msgid "e.g. Home, Work"
+msgstr "მაგ. სახლი, სამსახური"
+
+msgid "default"
+msgstr "ძირითადი"
+
+msgid "addresses"
+msgstr "მისამართები"
+
+msgid "New"
+msgstr "ახალი"
+
+msgid "Processing"
+msgstr "მუშავდება"
+
+msgid "Shipped"
+msgstr "გაგზავნილია"
+
+msgid "Delivered"
+msgstr "მიტანილია"
+
+msgid "Cancelled"
+msgstr "გაუქმებულია"
+
+msgid "note"
+msgstr "შენიშვნა"
+
+msgid "status"
+msgstr "სტატუსი"
+
+msgid "total"
+msgstr "ჯამი"
+
+msgid "orders"
+msgstr "შეკვეთები"
+
+msgid "product name"
+msgstr "პროდუქტის სახელი"
+
+msgid "unit price"
+msgstr "ერთეულის ფასი"
+
+msgid "quantity"
+msgstr "რაოდენობა"
+
+msgid "order item"
+msgstr "შეკვეთის პროდუქტი"
+
+msgid "order items"
+msgstr "შეკვეთის პროდუქტები"
+
+msgid "Apply bulk discount to selected products"
+msgstr "შერჩეულ პროდუქტებზე ფასდაკლების დადება"
