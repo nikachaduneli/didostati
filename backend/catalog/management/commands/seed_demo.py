@@ -1,13 +1,14 @@
 """Fills the shop with demo categories/products/blogs with generated placeholder pictures."""
 import io
+import math
 import random
 
 from django.core.files.base import ContentFile
 from django.core.management.base import BaseCommand
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 from catalog import models
-from content.models import Blog, Page
+from content.models import Blog, Page, Slide
 
 CATEGORIES = {
     'TableCloth, სუფრა': [
@@ -61,10 +62,54 @@ def placeholder(text, hex_color, size=(800, 800)):
     return ContentFile(buf.getvalue())
 
 
+SLIDES = [
+    ('New autumn collection', 'ახალი შემოდგომის კოლექცია', 'Warm tones for your table', 'თბილი ტონები თქვენი სუფრისთვის', '/shop',
+     ['#c8553d', '#f28f3b', '#6d597a']),
+    ('Handpicked plates & cups', 'ხელით შერჩეული თეფშები და ჭიქები', 'Made to last and easy to love', 'გაგრძელებისთვის და საყვარელი', '/shop',
+     ['#588b8b', '#3a6ea5', '#4f8a5b']),
+    ('Read our blog', 'წაიკითხეთ ჩვენი ბლოგი', 'Ideas for styling your home', 'იდეები თქვენი სახლის გასაფორმებლად', '/blog',
+     ['#863362', '#d64045', '#f28f3b']),
+]
+
+
+def blob_image(colors, rnd, size=(1920, 700)):
+    """Soft abstract background: a few big blurred organic blobs on a tinted gradient."""
+    w, h = size
+    base = tuple(int(colors[0][i:i + 2], 16) for i in (1, 3, 5))
+    img = Image.new('RGB', size, tuple(min(255, c + 90) for c in base))
+    for color in colors * 2:
+        rgb = tuple(int(color[i:i + 2], 16) for i in (1, 3, 5))
+        cx, cy, r = rnd.randint(0, w), rnd.randint(0, h), rnd.randint(h // 3, h)
+        phases = [rnd.uniform(0, 6.28) for _ in range(3)]
+        pts = []
+        for a in range(0, 360, 6):
+            t = math.radians(a)
+            rad = r * (1 + .25 * math.sin(2 * t + phases[0]) + .15 * math.sin(3 * t + phases[1]) + .1 * math.sin(5 * t + phases[2]))
+            pts.append((cx + rad * math.cos(t) * 1.4, cy + rad * math.sin(t)))
+        layer = Image.new('L', size, 0)
+        ImageDraw.Draw(layer).polygon(pts, fill=200)
+        layer = layer.filter(ImageFilter.GaussianBlur(12))
+        img.paste(Image.new('RGB', size, rgb), (0, 0), layer)
+    buf = io.BytesIO()
+    img.save(buf, 'JPEG', quality=85)
+    return ContentFile(buf.getvalue())
+
+
 class Command(BaseCommand):
     help = 'Create demo data (safe to run once on an empty database).'
 
+    def seed_slides(self):
+        if Slide.objects.exists():
+            return
+        rnd = random.Random(11)
+        for n, (title, title_ka, sub, sub_ka, link, colors) in enumerate(SLIDES):
+            slide = Slide(title=title, title_ka=title_ka, subtitle=sub, subtitle_ka=sub_ka, link=link, order=n)
+            slide.image.save(f'slide-{n}.jpg', blob_image(colors, rnd), save=False)
+            slide.save()
+        self.stdout.write(self.style.SUCCESS('Demo slides created.'))
+
     def handle(self, *args, **opts):
+        self.seed_slides()
         if models.Product.objects.exists():
             self.stdout.write('Products already exist - skipping demo data.')
             return

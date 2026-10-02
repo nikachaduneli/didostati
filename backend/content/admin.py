@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import format_html
 
 from . import models
 
@@ -19,3 +20,23 @@ class BlogAdmin(admin.ModelAdmin):
 class ContactMessageAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'created_at')
     readonly_fields = ('name', 'email', 'message', 'created_at')
+
+
+@admin.register(models.Slide)
+class SlideAdmin(admin.ModelAdmin):
+    list_display = ('preview', '__str__', 'order', 'is_active')
+    list_display_links = ('preview', '__str__')
+    list_editable = ('order', 'is_active')
+    readonly_fields = ('preview_large',)
+
+    @admin.display(description='image')
+    def preview(self, obj):
+        return format_html('<img src="{}" style="height:60px;border-radius:6px">', obj.image.url) if obj.image else '-'
+
+    @admin.display(description='preview')
+    def preview_large(self, obj):
+        return format_html('<img src="{}" style="max-width:600px;width:100%;border-radius:8px">', obj.image.url) if obj.image else '-'
+
+    fields = ('image', 'preview_large', 'title', 'title_ka', 'subtitle', 'subtitle_ka', 'link', 'order', 'is_active')
+
+

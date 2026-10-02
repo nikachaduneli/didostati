@@ -28,3 +28,9 @@ class BlogViewSet(viewsets.ReadOnlyModelViewSet):
 
 class ContactCreate(generics.CreateAPIView):
     serializer_class = s.ContactMessageSerializer
+
+
+class SlideList(generics.ListAPIView):
+    serializer_class = s.SlideSerializer
+    queryset = models.Slide.objects.filter(is_active=True)
+    pagination_class = None

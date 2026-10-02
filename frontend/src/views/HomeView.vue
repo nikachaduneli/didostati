@@ -3,6 +3,7 @@ import { t } from '../i18n'
 import { ref } from 'vue'
 import { api } from '../api'
 import ProductCard from '../components/ProductCard.vue'
+import HeroSlider from '../components/HeroSlider.vue'
 
 const categories = ref([])
 const popular = ref([])
@@ -11,6 +12,8 @@ api('/products/', { params: { popular: 1 } }).then((d) => (popular.value = d))
 </script>
 
 <template>
+  <HeroSlider />
+
   <section class="section">
     <div class="section-head"><h2>{{ t('Shop by category') }}</h2></div>
     <div class="cats">

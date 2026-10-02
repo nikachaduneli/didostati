@@ -30,3 +30,12 @@ class ContactMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ContactMessage
         fields = ('name', 'email', 'message')
+
+
+class SlideSerializer(TranslatedMixin, serializers.ModelSerializer):
+    image = ImageField()
+
+    class Meta:
+        model = models.Slide
+        fields = ('id', 'image', 'title', 'subtitle', 'link')
+        translated = ('title', 'subtitle')

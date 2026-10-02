@@ -56,3 +56,23 @@ class ContactMessage(models.Model):
 
     def __str__(self):
         return f'{self.name} <{self.email}>'
+
+
+class Slide(Translatable, models.Model):
+    """Big banner image in the home page slider."""
+    image = models.ImageField(_('image'), upload_to='slides/', help_text=_('Wide image, e.g. 1920x700.'))
+    title = models.CharField(_('title'), max_length=200, blank=True)
+    title_ka = models.CharField(_('title (Georgian)'), max_length=200, blank=True)
+    subtitle = models.CharField(_('subtitle'), max_length=300, blank=True)
+    subtitle_ka = models.CharField(_('subtitle (Georgian)'), max_length=300, blank=True)
+    link = models.CharField(_('link'), max_length=300, blank=True, help_text=_('Optional, e.g. /shop or https://...'))
+    order = models.PositiveIntegerField(_('order'), default=0)
+    is_active = models.BooleanField(_('active'), default=True)
+
+    class Meta:
+        ordering = ['order', 'id']
+        verbose_name = _('slide')
+        verbose_name_plural = _('slides')
+
+    def __str__(self):
+        return self.title or f'Slide {self.pk}'
