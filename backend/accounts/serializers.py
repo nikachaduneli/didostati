@@ -14,7 +14,8 @@ class AddressSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
-        fields = ('id', 'email', 'first_name')
+        fields = ('id', 'email', 'first_name', 'is_staff')
+        read_only_fields = ('is_staff',)
 
 
 class RegisterSerializer(serializers.Serializer):

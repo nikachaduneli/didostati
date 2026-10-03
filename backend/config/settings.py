@@ -208,3 +208,7 @@ CKEDITOR_5_CONFIGS = {
         },
     },
 }
+
+
+IG_DIDOSTATI = 'https://www.instagram.com/didostati.collection/'
+FB_DIDOSTATI = 'https://www.facebook.com/didostati.collection'

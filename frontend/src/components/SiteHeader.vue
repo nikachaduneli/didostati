@@ -29,6 +29,7 @@ function search() {
         <RouterLink to="/blog">{{ t('Blog') }}</RouterLink>
         <RouterLink to="/about">{{ t('About us') }}</RouterLink>
         <RouterLink to="/contact">{{ t('Contact') }}</RouterLink>
+        <a v-if="auth.user?.is_staff" href="/admin/" class="admin-link">{{ t('Admin') }}</a>
       </nav>
       <form class="search" @submit.prevent="search">
         <input v-model="q" type="search" :placeholder="t('Search products…')" :aria-label="t('Search products')" />
@@ -73,6 +74,8 @@ function search() {
 nav { display: flex; gap: 18px; }
 nav a { color: var(--muted); font-weight: 500; }
 nav a:hover, nav a.router-link-exact-active { color: var(--ink); }
+nav a.admin-link { color: #fff; background: var(--accent); padding: 4px 12px; border-radius: 999px; font-size: .9rem; }
+nav a.admin-link:hover { color: #fff; opacity: .85; }
 .search { flex: 1; max-width: 320px; margin-left: auto; }
 .search input { border-radius: 999px; padding: 8px 16px; }
 .langs { display: flex; gap: 2px; border: 1px solid var(--line); border-radius: 999px; padding: 2px; }
@@ -94,6 +97,7 @@ nav a:hover, nav a.router-link-exact-active { color: var(--ink); }
   .langs { order: 5; }
   nav { display: none; order: 6; width: 100%; flex-direction: column; gap: 0; padding-bottom: 6px; }
   nav a { padding: 11px 4px; border-top: 1px solid var(--line); }
+  nav a.admin-link { align-self: flex-start; margin: 8px 0 4px; padding: 6px 14px; }
   nav.open { display: flex; }
 }
 @media (max-width: 380px) {

@@ -5,6 +5,7 @@ export default {
   'Blog': 'ბლოგი',
   'About us': 'ჩვენ შესახებ',
   'Contact': 'კონტაქტი',
+  'Admin': 'ადმინი',
   'Search products…': 'პროდუქტების ძიება…',
   'Search products': 'პროდუქტების ძიება',
   'Account': 'ანგარიში',

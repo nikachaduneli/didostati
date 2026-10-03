@@ -34,12 +34,13 @@ class ColorAdmin(admin.ModelAdmin):
 
 class ProductImageInline(admin.TabularInline):
     model = models.ProductImage
-    extra = 1
+    extra = 2
     fields = ('image_display', 'image', 'color', 'order')
     readonly_fields = ('image_display',)
 
+    @admin.display(description=_('Preview'))
     def image_display(self, object):
-        return mark_safe(f'<img src="{object.image.url}" height="100"/>')
+        return format_html('<img src="{}" height="100"/>', object.image.url) if object.image else '-'
 
 
 

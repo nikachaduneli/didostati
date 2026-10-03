@@ -1,7 +1,7 @@
 <script setup>
 import { t } from '../i18n'
 import { money } from '../config'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { api } from '../api'
 import { useCart } from '../stores/cart'
@@ -33,6 +33,21 @@ const gallery = computed(() => {
 })
 const shown = computed(() => gallery.value[active.value]?.image || product.value?.image)
 
+watch(gallery, (g) => { if (active.value >= g.length) active.value = 0 })
+
+function go(n) {
+  const len = gallery.value.length
+  if (len) active.value = (n + len) % len
+}
+let touchX = null
+function touchStart(e) { touchX = e.touches[0].clientX }
+function touchEnd(e) {
+  if (touchX === null) return
+  const dx = e.changedTouches[0].clientX - touchX
+  touchX = null
+  if (Math.abs(dx) > 40) go(active.value + (dx < 0 ? 1 : -1))
+}
+
 function pick(c) {
   color.value = c
   const first = gallery.value.findIndex((i) => i.color === c.id)
@@ -52,7 +67,14 @@ function add(go) {
   <p v-if="missing" class="card center">{{ t('This product could not be found.') }} <RouterLink to="/shop" class="link">{{ t('Back to shop') }}</RouterLink></p>
   <div v-else-if="product" class="product">
     <div>
-      <div class="main"><img v-if="shown" :src="shown" :alt="product.name" /></div>
+      <div class="main" tabindex="0" @keydown.left="go(active - 1)" @keydown.right="go(active + 1)" @touchstart.passive="touchStart" @touchend="touchEnd">
+        <img v-if="shown" :src="shown" :alt="product.name" />
+        <template v-if="gallery.length > 1">
+          <button type="button" class="nav prev" aria-label="Previous image" @click="go(active - 1)">‹</button>
+          <button type="button" class="nav next" aria-label="Next image" @click="go(active + 1)">›</button>
+          <span class="count">{{ active + 1 }} / {{ gallery.length }}</span>
+        </template>
+      </div>
       <div v-if="gallery.length > 1" class="thumbs">
         <img v-for="(g, i) in gallery" :key="g.id" :src="g.image" :class="{ on: i === active }" :alt="`${product.name} ${i + 1}`" @click="active = i" />
       </div>
@@ -94,8 +116,11 @@ function add(go) {
 
 <style scoped>
 .product { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-.main { aspect-ratio: 1; background: var(--line); border-radius: var(--radius); overflow: hidden; }
+.main { position: relative; outline: none; aspect-ratio: 1; background: var(--line); border-radius: var(--radius); overflow: hidden; }
 .main img { width: 100%; height: 100%; object-fit: cover; }
+.nav { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border: 0; border-radius: 50%; background: rgba(255,255,255,.85); font-size: 1.6rem; line-height: 1; cursor: pointer; }
+.prev { left: 10px; } .next { right: 10px; }
+.count { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,.55); color: #fff; font-size: .8rem; padding: 2px 10px; border-radius: 999px; }
 .thumbs { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
 .thumbs img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; }
 .thumbs img.on { border-color: var(--accent); }
