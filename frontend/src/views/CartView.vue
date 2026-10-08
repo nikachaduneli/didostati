@@ -15,11 +15,12 @@ cart.refresh()
   </div>
   <div v-else class="layout">
     <div class="card">
-      <div v-for="i in cart.items" :key="i.product + '-' + i.color" class="line">
+      <div v-for="i in cart.items" :key="i.product + '-' + i.color + '-' + i.size" class="line">
         <img :src="i.image" :alt="i.name" />
         <div class="name">
           <RouterLink :to="`/product/${i.slug}`"><strong>{{ i.name }}</strong></RouterLink>
           <div class="muted" v-if="i.colorName">{{ t('Colour:') }} {{ i.colorName }}</div>
+          <div class="muted" v-if="i.sizeName">{{ t('Size:') }} {{ i.sizeName }}</div>
           <button class="link" @click="cart.remove(i)">{{ t('Remove') }}</button>
         </div>
         <input type="number" min="1" max="99" :value="i.quantity" :aria-label="t('Quantity')" @change="cart.setQuantity(i, +$event.target.value)" />

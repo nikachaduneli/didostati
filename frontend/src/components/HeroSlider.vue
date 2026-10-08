@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { api } from '../api'
+import { t } from '../i18n'
 
 const slides = ref([])
 const i = ref(0)
@@ -41,8 +42,8 @@ onBeforeUnmount(() => clearInterval(timer))
       </component>
     </div>
     <template v-if="slides.length > 1">
-      <button class="nav prev" aria-label="Previous" @click="go(i - 1)">‹</button>
-      <button class="nav next" aria-label="Next" @click="go(i + 1)">›</button>
+      <button class="nav prev" :aria-label="t('Previous')" @click="go(i - 1)">‹</button>
+      <button class="nav next" :aria-label="t('Next')" @click="go(i + 1)">›</button>
       <div class="dots">
         <button v-for="(s, n) in slides" :key="s.id" :class="{ on: n === i }" :aria-label="`Slide ${n + 1}`" @click="go(n)" />
       </div>

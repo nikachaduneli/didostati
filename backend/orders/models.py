@@ -31,6 +31,7 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL)
     product_name = models.CharField(_('product name'), max_length=200)
     color_name = models.CharField(_('colour'), max_length=60, blank=True)
+    size_name = models.CharField(_('size'), max_length=60, blank=True)
     unit_price = models.DecimalField(_('unit price'), max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField(_('quantity'), default=1)
 

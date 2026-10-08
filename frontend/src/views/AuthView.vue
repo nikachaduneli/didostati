@@ -38,7 +38,7 @@ async function submit() {
     <button class="btn" :disabled="busy" style="width: 100%">{{ isRegister ? t('Create account') : t('Sign in') }}</button>
     <p class="center muted">
       <template v-if="isRegister">{{ t('Already have an account?') }} <RouterLink :to="{ path: '/login', query: route.query }" class="link">{{ t('Sign in') }}</RouterLink></template>
-      <template v-else>New here? <RouterLink :to="{ path: '/register', query: route.query }" class="link">{{ t('Create an account') }}</RouterLink></template>
+      <template v-else>{{ t('New here?') }} <RouterLink :to="{ path: '/register', query: route.query }" class="link">{{ t('Create an account') }}</RouterLink></template>
     </p>
   </form>
 </template>

@@ -1,235 +1,443 @@
 msgid ""
 msgstr ""
-"Content-Type: text/plain; charset=UTF-8\n"
-"Language: ka\n"
 "Project-Id-Version: didostati\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-08 14:01+0000\n"
+"Language: ka\n"
 "MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-msgid "Didostati administration"
-msgstr "დიდოსტატი — ადმინისტრირება"
+#: accounts/admin.py:15
+msgid "Personal info"
+msgstr "პირადი ინფორმაცია"
 
-msgid "Picture"
-msgstr "სურათი"
+#: accounts/admin.py:16
+msgid "Permissions"
+msgstr "უფლებები"
 
-msgid "Swatch"
-msgstr "ნიმუში"
+#: accounts/admin.py:17
+msgid "Important dates"
+msgstr "მნიშვნელოვანი თარიღები"
 
-msgid "name"
-msgstr "სახელი"
-
-msgid "name (Georgian)"
-msgstr "სახელი (ქართულად)"
-
-msgid "slug"
-msgstr "სლაგი"
-
-msgid "image"
-msgstr "სურათი"
-
-msgid "description"
-msgstr "აღწერა"
-
-msgid "description (Georgian)"
-msgstr "აღწერა (ქართულად)"
-
-msgid "position"
-msgstr "პოზიცია"
-
-msgid "order"
-msgstr "შეკვეთა"
-
-msgid "Lower numbers appear first."
-msgstr "რაც ნაკლებია, მით უფრო წინ გამოჩნდება."
-
-msgid "category"
-msgstr "კატეგორია"
-
-msgid "categories"
-msgstr "კატეგორიები"
-
-msgid "colour"
-msgstr "ფერი"
-
-msgid "colours"
-msgstr "ფერები"
-
-msgid "hex code"
-msgstr "ჰექს კოდი"
-
-msgid "e.g. #ff0000"
-msgstr "მაგ. #ff0000"
-
-msgid "product"
-msgstr "პროდუქტი"
-
-msgid "products"
-msgstr "პროდუქტები"
-
-msgid "price"
-msgstr "ფასი"
-
-msgid "discount percent"
-msgstr "ფასდაკლება (%)"
-
-msgid "0 = no discount. E.g. 20 takes 20% off the price."
-msgstr "0 = ფასდაკლების გარეშე. მაგ. 20 ნიშნავს 20%-იან ფასდაკლებას."
-
-msgid "popular"
-msgstr "პოპულარული"
-
-msgid "Show in \"Popular products\" on the main page."
-msgstr "გამოჩნდეს მთავარ გვერდზე „პოპულარული პროდუქტების“ სექციაში."
-
-msgid "active"
-msgstr "აქტიური"
-
-msgid "Untick to hide from the shop."
-msgstr "მოხსენით მონიშვნა, რომ მაღაზიაში არ გამოჩნდეს."
-
-msgid "created at"
-msgstr "შექმნის დრო"
-
-msgid "Optional: show this picture when the customer picks this colour."
-msgstr "არასავალდებულო: ეს სურათი გამოჩნდება, როცა მომხმარებელი ამ ფერს აირჩევს."
-
-msgid "product image"
-msgstr "პროდუქტის სურათი"
-
-msgid "product images"
-msgstr "პროდუქტის სურათები"
-
-msgid "\"about\" and \"contact\" are used by the menu."
-msgstr "„about“ და „contact“ გამოიყენება მენიუში."
-
-msgid "title"
-msgstr "სათაური"
-
-msgid "title (Georgian)"
-msgstr "სათაური (ქართულად)"
-
-msgid "content"
-msgstr "შინაარსი"
-
-msgid "content (Georgian)"
-msgstr "შინაარსი (ქართულად)"
-
-msgid "updated at"
-msgstr "განახლების დრო"
-
-msgid "page"
-msgstr "გვერდი"
-
-msgid "pages"
-msgstr "გვერდები"
-
-msgid "cover image"
-msgstr "ყდის სურათი"
-
-msgid "excerpt"
-msgstr "მოკლე აღწერა"
-
-msgid "excerpt (Georgian)"
-msgstr "მოკლე აღწერა (ქართულად)"
-
-msgid "Short teaser shown on cards."
-msgstr "მოკლე ტექსტი, რომელიც ბარათებზე ჩანს."
-
-msgid "published"
-msgstr "გამოქვეყნებული"
-
-msgid "blog post"
-msgstr "ბლოგის პოსტი"
-
-msgid "blog posts"
-msgstr "ბლოგის პოსტები"
-
-msgid "email"
+#: accounts/models.py:12
+msgid "email address"
 msgstr "ელფოსტა"
 
-msgid "message"
-msgstr "შეტყობინება"
+#: accounts/models.py:20
+msgid "user"
+msgstr "მომხმარებელი"
 
-msgid "contact message"
-msgstr "შეტყობინება კონტაქტიდან"
+#: accounts/models.py:21
+msgid "users"
+msgstr "მომხმარებლები"
 
-msgid "contact messages"
-msgstr "შეტყობინებები კონტაქტიდან"
-
-msgid "full name"
-msgstr "სრული სახელი"
-
-msgid "phone"
-msgstr "ტელეფონი"
-
-msgid "address"
-msgstr "მისამართი"
-
-msgid "address 2"
-msgstr "მისამართი 2"
-
-msgid "city"
-msgstr "ქალაქი"
-
-msgid "postal code"
-msgstr "საფოსტო ინდექსი"
-
-msgid "country"
-msgstr "ქვეყანა"
-
+#: accounts/models.py:29 shop/models.py:186
 msgid "label"
 msgstr "სახელი"
 
+#: accounts/models.py:29 shop/models.py:186
 msgid "e.g. Home, Work"
 msgstr "მაგ. სახლი, სამსახური"
 
+#: accounts/models.py:30 shop/models.py:187
 msgid "default"
 msgstr "ძირითადი"
 
+#: accounts/models.py:34 core/models.py:44 shop/models.py:174
+#: shop/models.py:191
+msgid "address"
+msgstr "მისამართი"
+
+#: accounts/models.py:35 shop/models.py:192
 msgid "addresses"
 msgstr "მისამართები"
 
-msgid "New"
-msgstr "ახალი"
+#: catalog/admin.py:21 shop/admin.py:17
+msgid "Picture"
+msgstr "სურათი"
 
-msgid "Processing"
-msgstr "მუშავდება"
+#: catalog/admin.py:30 shop/admin.py:26
+msgid "Swatch"
+msgstr "ნიმუში"
 
-msgid "Shipped"
-msgstr "გაგზავნილია"
+#: catalog/admin.py:41
+msgid "Preview"
+msgstr "გადახედვა"
 
-msgid "Delivered"
-msgstr "მიტანილია"
+#: catalog/admin.py:58
+msgid "product in this collection"
+msgstr "პროდუქტი ამ კოლექციაში"
 
-msgid "Cancelled"
-msgstr "გაუქმებულია"
+#: catalog/admin.py:59
+msgid "Collection contents (leave empty for a normal product)"
+msgstr "კოლექციის შემადგენლობა (ჩვეულებრივი პროდუქტისთვის დატოვეთ ცარიელი)"
 
-msgid "note"
-msgstr "შენიშვნა"
+#: catalog/admin.py:75
+msgid "Apply bulk discount to selected products"
+msgstr "შერჩეულ პროდუქტებზე ფასდაკლების დადება"
 
-msgid "status"
-msgstr "სტატუსი"
+#: catalog/models.py:13 catalog/models.py:30 catalog/models.py:46
+#: catalog/models.py:84 content/models.py:47 shop/models.py:40
+#: shop/models.py:58 shop/models.py:74 shop/models.py:157
+msgid "name"
+msgstr "სახელი"
 
-msgid "total"
-msgstr "ჯამი"
+#: catalog/models.py:14 catalog/models.py:31 catalog/models.py:47
+#: catalog/models.py:85 shop/models.py:41 shop/models.py:59 shop/models.py:75
+msgid "name (Georgian)"
+msgstr "სახელი (ქართულად)"
 
-msgid "orders"
-msgstr "შეკვეთები"
+#: catalog/models.py:15 catalog/models.py:137 content/models.py:63
+#: shop/models.py:43 shop/models.py:106
+msgid "image"
+msgstr "სურათი"
 
-msgid "product name"
-msgstr "პროდუქტის სახელი"
+#: catalog/models.py:16 catalog/models.py:48 shop/models.py:44
+#: shop/models.py:77
+msgid "description"
+msgstr "აღწერა"
 
-msgid "unit price"
-msgstr "ერთეულის ფასი"
+#: catalog/models.py:17 catalog/models.py:49 shop/models.py:45
+#: shop/models.py:78
+msgid "description (Georgian)"
+msgstr "აღწერა (ქართულად)"
 
+#: catalog/models.py:18 catalog/models.py:88 catalog/models.py:140
+#: shop/models.py:46 shop/models.py:109
+msgid "position"
+msgstr "პოზიცია"
+
+#: catalog/models.py:18 shop/models.py:46
+msgid "Lower numbers appear first."
+msgstr "რაც ნაკლებია, მით უფრო წინ გამოჩნდება."
+
+#: catalog/models.py:22 catalog/models.py:44 shop/models.py:50
+#: shop/models.py:72
+msgid "category"
+msgstr "კატეგორია"
+
+#: catalog/models.py:23 shop/models.py:51
+msgid "categories"
+msgstr "კატეგორიები"
+
+#: catalog/models.py:32 shop/models.py:60
+msgid "hex code"
+msgstr "ჰექს კოდი"
+
+#: catalog/models.py:32 shop/models.py:60
+msgid "e.g. #ff0000"
+msgstr "მაგ. #ff0000"
+
+#: catalog/models.py:36 catalog/models.py:138 orders/models.py:33
+#: shop/models.py:64 shop/models.py:107 shop/models.py:227
+msgid "colour"
+msgstr "ფერი"
+
+#: catalog/models.py:37 catalog/models.py:54 shop/models.py:65
+#: shop/models.py:83
+msgid "colours"
+msgstr "ფერები"
+
+#: catalog/models.py:50 catalog/models.py:86 shop/models.py:79
+msgid "price"
+msgstr "ფასი"
+
+#: catalog/models.py:52 shop/models.py:81
+msgid "discount percent"
+msgstr "ფასდაკლება (%)"
+
+#: catalog/models.py:53 shop/models.py:82
+#, no-python-format
+msgid "0 = no discount. E.g. 20 takes 20% off the price."
+msgstr "0 = ფასდაკლების გარეშე. მაგ. 20 ნიშნავს 20%-იან ფასდაკლებას."
+
+#: catalog/models.py:55 shop/models.py:84
+msgid "popular"
+msgstr "პოპულარული"
+
+#: catalog/models.py:56 shop/models.py:85
+msgid "Show in \"Popular products\" on the main page."
+msgstr "გამოჩნდეს მთავარ გვერდზე „პოპულარული პროდუქტების“ სექციაში."
+
+#: catalog/models.py:57 content/models.py:70 shop/models.py:86
+msgid "active"
+msgstr "აქტიური"
+
+#: catalog/models.py:57 shop/models.py:86
+msgid "Untick to hide from the shop."
+msgstr "მოხსენით მონიშვნა, რომ მაღაზიაში არ გამოჩნდეს."
+
+#: catalog/models.py:58 content/models.py:35 content/models.py:50
+#: orders/models.py:18 shop/models.py:87 shop/models.py:145 shop/models.py:160
+#: shop/models.py:212
+msgid "created at"
+msgstr "შექმნის დრო"
+
+#: catalog/models.py:62 catalog/models.py:83 catalog/models.py:113
+#: shop/models.py:91
+msgid "product"
+msgstr "პროდუქტი"
+
+#: catalog/models.py:63 shop/models.py:92
+msgid "products"
+msgstr "პროდუქტები"
+
+#: catalog/models.py:84
+msgid "e.g. S, M, L or 30x40 cm"
+msgstr "მაგ. S, M, L ან 30x40 სმ"
+
+#: catalog/models.py:87
+msgid "Leave empty to use the product's price."
+msgstr "დატოვეთ ცარიელი პროდუქტის ფასის გამოსაყენებლად."
+
+#: catalog/models.py:93 orders/models.py:34
+msgid "size"
+msgstr "ზომა"
+
+#: catalog/models.py:94
+msgid "sizes"
+msgstr "ზომები"
+
+#: catalog/models.py:111
+msgid "collection"
+msgstr "კოლექცია"
+
+#: catalog/models.py:115 orders/models.py:36 shop/models.py:229
 msgid "quantity"
 msgstr "რაოდენობა"
 
+#: catalog/models.py:119
+msgid "collection item"
+msgstr "კოლექციის ელემენტი"
+
+#: catalog/models.py:120
+msgid "collection items"
+msgstr "კოლექციის ელემენტები"
+
+#: catalog/models.py:128
+msgid "A collection cannot contain itself."
+msgstr "კოლექცია თავის თავს ვერ შეიცავს."
+
+#: catalog/models.py:130
+msgid "A collection cannot contain another collection."
+msgstr "კოლექცია სხვა კოლექციას ვერ შეიცავს."
+
+#: catalog/models.py:132
+msgid "This product is already part of a collection."
+msgstr "ეს პროდუქტი უკვე შედის კოლექციაში."
+
+#: catalog/models.py:139 shop/models.py:108
+msgid "Optional: show this picture when the customer picks this colour."
+msgstr ""
+"არასავალდებულო: ეს სურათი გამოჩნდება, როცა მომხმარებელი ამ ფერს აირჩევს."
+
+#: catalog/models.py:144 shop/models.py:113
+msgid "product image"
+msgstr "პროდუქტის სურათი"
+
+#: catalog/models.py:145 shop/models.py:114
+msgid "product images"
+msgstr "პროდუქტის სურათები"
+
+#: content/models.py:10 core/models.py:21 shop/models.py:42 shop/models.py:76
+#: shop/models.py:119 shop/models.py:138
+msgid "slug"
+msgstr "სლაგი"
+
+#: content/models.py:10 shop/models.py:119
+msgid "\"about\" and \"contact\" are used by the menu."
+msgstr "„about“ და „contact“ გამოიყენება მენიუში."
+
+#: content/models.py:11 content/models.py:27 content/models.py:64
+#: shop/models.py:120 shop/models.py:136
+msgid "title"
+msgstr "სათაური"
+
+#: content/models.py:12 content/models.py:28 content/models.py:65
+#: shop/models.py:121 shop/models.py:137
+msgid "title (Georgian)"
+msgstr "სათაური (ქართულად)"
+
+#: content/models.py:13 content/models.py:32 shop/models.py:122
+#: shop/models.py:142
+msgid "content"
+msgstr "შინაარსი"
+
+#: content/models.py:14 content/models.py:33 shop/models.py:123
+#: shop/models.py:143
+msgid "content (Georgian)"
+msgstr "შინაარსი (ქართულად)"
+
+#: content/models.py:15 shop/models.py:124
+msgid "updated at"
+msgstr "განახლების დრო"
+
+#: content/models.py:18 shop/models.py:127
+msgid "page"
+msgstr "გვერდი"
+
+#: content/models.py:19 shop/models.py:128
+msgid "pages"
+msgstr "გვერდები"
+
+#: content/models.py:29 shop/models.py:139
+msgid "cover image"
+msgstr "ყდის სურათი"
+
+#: content/models.py:30 shop/models.py:140
+msgid "excerpt"
+msgstr "მოკლე აღწერა"
+
+#: content/models.py:30 shop/models.py:140
+msgid "Short teaser shown on cards."
+msgstr "მოკლე ტექსტი, რომელიც ბარათებზე ჩანს."
+
+#: content/models.py:31 shop/models.py:141
+msgid "excerpt (Georgian)"
+msgstr "მოკლე აღწერა (ქართულად)"
+
+#: content/models.py:34 shop/models.py:144
+msgid "published"
+msgstr "გამოქვეყნებული"
+
+#: content/models.py:39 shop/models.py:149
+msgid "blog post"
+msgstr "ბლოგის პოსტი"
+
+#: content/models.py:40 shop/models.py:150
+msgid "blog posts"
+msgstr "ბლოგის პოსტები"
+
+#: content/models.py:48 orders/models.py:14 shop/models.py:158
+#: shop/models.py:208
+msgid "email"
+msgstr "ელფოსტა"
+
+#: content/models.py:49 shop/models.py:159
+msgid "message"
+msgstr "შეტყობინება"
+
+#: content/models.py:54 shop/models.py:164
+msgid "contact message"
+msgstr "შეტყობინება კონტაქტიდან"
+
+#: content/models.py:55 shop/models.py:165
+msgid "contact messages"
+msgstr "შეტყობინებები კონტაქტიდან"
+
+#: content/models.py:63
+msgid "Wide image, e.g. 1920x700."
+msgstr "ფართო სურათი, მაგ. 1920x700."
+
+#: content/models.py:66
+msgid "subtitle"
+msgstr "ქვესათაური"
+
+#: content/models.py:67
+msgid "subtitle (Georgian)"
+msgstr "ქვესათაური (ქართულად)"
+
+#: content/models.py:68
+msgid "link"
+msgstr "ბმული"
+
+#: content/models.py:68
+msgid "Optional, e.g. /shop or https://..."
+msgstr "არასავალდებულო, მაგ. /shop ან https://..."
+
+#: content/models.py:69 orders/models.py:22 shop/models.py:216
+msgid "order"
+msgstr "შეკვეთა"
+
+#: content/models.py:74
+msgid "slide"
+msgstr "სლაიდი"
+
+#: content/models.py:75
+msgid "slides"
+msgstr "სლაიდები"
+
+#: core/models.py:42 shop/models.py:172
+msgid "full name"
+msgstr "სრული სახელი"
+
+#: core/models.py:43 shop/models.py:173
+msgid "phone"
+msgstr "ტელეფონი"
+
+#: core/models.py:45 shop/models.py:175
+msgid "address 2"
+msgstr "მისამართი 2"
+
+#: core/models.py:46 shop/models.py:176
+msgid "city"
+msgstr "ქალაქი"
+
+#: core/models.py:47 shop/models.py:177
+msgid "postal code"
+msgstr "საფოსტო ინდექსი"
+
+#: core/models.py:48 shop/models.py:178
+msgid "country"
+msgstr "ქვეყანა"
+
+#: orders/models.py:10 shop/models.py:204
+msgid "New"
+msgstr "ახალი"
+
+#: orders/models.py:10 shop/models.py:204
+msgid "Processing"
+msgstr "მუშავდება"
+
+#: orders/models.py:10 shop/models.py:204
+msgid "Shipped"
+msgstr "გაგზავნილია"
+
+#: orders/models.py:11 shop/models.py:205
+msgid "Delivered"
+msgstr "მიტანილია"
+
+#: orders/models.py:11 shop/models.py:205
+msgid "Cancelled"
+msgstr "გაუქმებულია"
+
+#: orders/models.py:15 shop/models.py:209
+msgid "note"
+msgstr "შენიშვნა"
+
+#: orders/models.py:16 shop/models.py:210
+msgid "status"
+msgstr "სტატუსი"
+
+#: orders/models.py:17 shop/models.py:211
+msgid "total"
+msgstr "ჯამი"
+
+#: orders/models.py:23 shop/models.py:217
+msgid "orders"
+msgstr "შეკვეთები"
+
+#: orders/models.py:32 shop/models.py:226
+msgid "product name"
+msgstr "პროდუქტის სახელი"
+
+#: orders/models.py:35 shop/models.py:228
+msgid "unit price"
+msgstr "ერთეულის ფასი"
+
+#: orders/models.py:39 shop/models.py:232
 msgid "order item"
 msgstr "შეკვეთის პროდუქტი"
 
+#: orders/models.py:40 shop/models.py:233
 msgid "order items"
 msgstr "შეკვეთის პროდუქტები"
 
-msgid "Apply bulk discount to selected products"
-msgstr "შერჩეულ პროდუქტებზე ფასდაკლების დადება"
+#: shop/admin.py:7 templates/admin/base_site.html:68
+msgid "Didostati administration"
+msgstr "დიდოსტატი — ადმინისტრირება"
+
+#: templates/admin/base_site.html:4
+msgid "Django site admin"
+msgstr "Django საიტის ადმინისტრირება"

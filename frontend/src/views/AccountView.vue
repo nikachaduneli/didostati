@@ -71,7 +71,7 @@ async function logout() {
         <strong class="total">{{ money(o.total) }}</strong>
       </div>
       <div v-for="(i, n) in o.items" :key="n" class="item">
-        {{ i.quantity }} × {{ i.product_name }}<span v-if="i.color_name" class="muted"> ({{ i.color_name }})</span>
+        {{ i.quantity }} × {{ i.product_name }}<span v-if="i.color_name" class="muted"> ({{ i.color_name }})</span><span v-if="i.size_name" class="muted"> ({{ i.size_name }})</span>
         <span>{{ money(i.line_total) }}</span>
       </div>
       <small class="muted">{{ t('Shipped to') }} {{ o.full_name }}, {{ o.line1 }}, {{ o.city }}</small>

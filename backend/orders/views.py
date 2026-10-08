@@ -13,7 +13,7 @@ class CartPrice(APIView):
         ser.is_valid(raise_exception=True)
         lines, total = s.price_lines(ser.validated_data)
         for l in lines:
-            l.pop('_product'), l.pop('_color')
+            l.pop('_product'), l.pop('_color'), l.pop('_size')
         return Response({'lines': lines, 'total': total})
 
 

@@ -20,7 +20,7 @@ class ProductList(generics.ListAPIView):
 
     def get_queryset(self):
         qs = models.Product.objects.filter(is_active=True).select_related('category') \
-            .prefetch_related('images', 'colors', 'bundle_items__product__images',
+            .prefetch_related('images', 'colors', 'sizes', 'bundle_items__product__images',
                          'bundle_items__product__colors', 'bundle_items__product__category')
         q = self.request.query_params
         if q.get('category'):
@@ -53,5 +53,5 @@ class ProductDetail(generics.RetrieveAPIView):
     serializer_class = s.ProductDetailSerializer
     lookup_field = 'slug'
     queryset = models.Product.objects.filter(is_active=True).select_related('category') \
-        .prefetch_related('images', 'colors', 'bundle_items__product__images',
+        .prefetch_related('images', 'colors', 'sizes', 'bundle_items__product__images',
                          'bundle_items__product__colors', 'bundle_items__product__category')

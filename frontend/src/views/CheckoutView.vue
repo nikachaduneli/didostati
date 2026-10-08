@@ -92,8 +92,8 @@ async function submit() {
 
     <aside class="card">
       <h2>{{ t('Your order') }}</h2>
-      <div v-for="i in cart.items" :key="i.product + '-' + i.color" class="row">
-        <span>{{ i.quantity }} × {{ i.name }}<small v-if="i.colorName" class="muted"> ({{ i.colorName }})</small></span>
+      <div v-for="i in cart.items" :key="i.product + '-' + i.color + '-' + i.size" class="row">
+        <span>{{ i.quantity }} × {{ i.name }}<small v-if="i.colorName" class="muted"> ({{ i.colorName }})</small><small v-if="i.sizeName" class="muted"> ({{ i.sizeName }})</small></span>
         <span>{{ money(i.unitPrice * i.quantity) }}</span>
       </div>
       <p class="row tot"><span>{{ t('Total') }}</span><strong>{{ money(cart.total) }}</strong></p>

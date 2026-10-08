@@ -44,6 +44,12 @@ class ProductImageInline(admin.TabularInline):
 
 
 
+class ProductSizeInline(admin.TabularInline):
+    model = models.ProductSize
+    extra = 0
+    fields = ('name', 'name_ka', 'price', 'order')
+
+
 class CollectionItemInline(admin.TabularInline):
     model = models.CollectionItem
     fk_name = 'collection'
@@ -61,7 +67,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name', 'description')
     readonly_fields = ('slug',)
     filter_horizontal = ('colors',)
-    inlines = [CollectionItemInline, ProductImageInline]
+    inlines = [ProductSizeInline, CollectionItemInline, ProductImageInline]
 
 
     actions = ['apply_discount']

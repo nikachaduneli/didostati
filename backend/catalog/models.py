@@ -69,11 +69,40 @@ class Product(SluggedModel):
     def is_collection(self):
         return self.bundle_items.exists()
 
+    def discounted(self, price):
+        if not self.discount_percent:
+            return price
+        return (price * (100 - self.discount_percent) / Decimal(100)).quantize(Decimal('0.01'))
+
     @property
     def final_price(self):
-        if not self.discount_percent:
-            return self.price
-        return (self.price * (100 - self.discount_percent) / Decimal(100)).quantize(Decimal('0.01'))
+        return self.discounted(self.price)
+
+
+class ProductSize(Translatable, models.Model):
+    product = models.ForeignKey(Product, verbose_name=_('product'), on_delete=models.CASCADE, related_name='sizes')
+    name = models.CharField(_('name'), max_length=60, help_text=_('e.g. S, M, L or 30x40 cm'))
+    name_ka = models.CharField(_('name (Georgian)'), max_length=60, blank=True)
+    price = models.DecimalField(_('price'), max_digits=10, decimal_places=2, null=True, blank=True,
+                                help_text=_("Leave empty to use the product's price."))
+    order = models.PositiveIntegerField(_('position'), default=0)
+
+    class Meta:
+        ordering = ['order', 'id']
+        unique_together = ('product', 'name')
+        verbose_name = _('size')
+        verbose_name_plural = _('sizes')
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def effective_price(self):
+        return self.product.price if self.price is None else self.price
+
+    @property
+    def final_price(self):
+        return self.product.discounted(self.effective_price)
 
 
 class CollectionItem(models.Model):

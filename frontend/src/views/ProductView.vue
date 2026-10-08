@@ -13,6 +13,7 @@ const cart = useCart()
 const product = ref(null)
 const missing = ref(false)
 const color = ref(null)
+const size = ref(null)
 const quantity = ref(1)
 const active = ref(0)
 const added = ref(false)
@@ -22,6 +23,7 @@ api(`/products/${route.params.slug}/`)
     product.value = p
     document.title = `${p.name} · Didostati`
     color.value = p.colors[0] || null
+    size.value = p.sizes?.[0] || null
   })
   .catch(() => (missing.value = true))
 
@@ -32,6 +34,12 @@ const gallery = computed(() => {
   return mine.length ? mine : imgs
 })
 const shown = computed(() => gallery.value[active.value]?.image || product.value?.image)
+
+// Price of the chosen size (sizes without their own price inherit the product's).
+const shownPrice = computed(() => {
+  const p = product.value
+  return size.value ? { ...p, price: size.value.price, final_price: size.value.final_price } : p
+})
 
 watch(gallery, (g) => { if (active.value >= g.length) active.value = 0 })
 
@@ -54,7 +62,7 @@ function pick(c) {
   active.value = first >= 0 ? first : 0
 }
 function add(go) {
-  cart.add(product.value, color.value, quantity.value)
+  cart.add(product.value, color.value, quantity.value, size.value)
   if (go) router.push('/cart')
   else {
     added.value = true
@@ -70,8 +78,8 @@ function add(go) {
       <div class="main" tabindex="0" @keydown.left="go(active - 1)" @keydown.right="go(active + 1)" @touchstart.passive="touchStart" @touchend="touchEnd">
         <img v-if="shown" :src="shown" :alt="product.name" />
         <template v-if="gallery.length > 1">
-          <button type="button" class="nav prev" aria-label="Previous image" @click="go(active - 1)">‹</button>
-          <button type="button" class="nav next" aria-label="Next image" @click="go(active + 1)">›</button>
+          <button type="button" class="nav prev" :aria-label="t('Previous image')" @click="go(active - 1)">‹</button>
+          <button type="button" class="nav next" :aria-label="t('Next image')" @click="go(active + 1)">›</button>
           <span class="count">{{ active + 1 }} / {{ gallery.length }}</span>
         </template>
       </div>
@@ -82,7 +90,7 @@ function add(go) {
     <div>
       <RouterLink :to="`/category/${product.category}`" class="muted">{{ product.category_name }}</RouterLink>
       <h1>{{ product.name }}</h1>
-      <p class="big"><PriceTag :product="product" /> <span v-if="product.discount_percent" class="off">-{{ product.discount_percent }}%</span></p>
+      <p class="big"><PriceTag :product="shownPrice" /> <span v-if="product.discount_percent" class="off">-{{ product.discount_percent }}%</span></p>
       <div class="desc" v-html="product.description"/>
 
       <div v-if="product.items?.length" class="includes card">
@@ -100,6 +108,12 @@ function add(go) {
         <label>{{ t('Colour:') }} <span class="muted">{{ color?.name }}</span></label>
         <div class="swatches">
           <button v-for="c in product.colors" :key="c.id" type="button" :title="c.name" :class="{ on: color?.id === c.id }" :style="{ background: c.hex }" @click="pick(c)"></button>
+        </div>
+      </div>
+      <div v-if="product.sizes?.length" class="field">
+        <label>{{ t('Size:') }} <span class="muted">{{ size?.name }}</span></label>
+        <div class="sizes">
+          <button v-for="s in product.sizes" :key="s.id" type="button" :class="{ on: size?.id === s.id }" @click="size = s">{{ s.name }}</button>
         </div>
       </div>
       <div class="field qty">
@@ -130,6 +144,9 @@ function add(go) {
 .swatches { display: flex; gap: 10px; }
 .swatches button { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--line); cursor: pointer; padding: 0; box-shadow: inset 0 0 0 3px var(--card); }
 .swatches button.on { border-color: var(--accent); }
+.sizes { display: flex; gap: 8px; flex-wrap: wrap; }
+.sizes button { min-width: 44px; padding: 8px 14px; border: 2px solid var(--line); border-radius: 8px; background: var(--card); font: inherit; cursor: pointer; }
+.sizes button.on { border-color: var(--accent); color: var(--accent); font-weight: 700; }
 .qty { max-width: 110px; }
 .actions { display: flex; gap: 12px; flex-wrap: wrap; }
 .product > * { min-width: 0; }

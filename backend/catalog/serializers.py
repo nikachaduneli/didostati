@@ -29,6 +29,16 @@ class ProductImageSerializer(serializers.ModelSerializer):
         fields = ('id', 'image', 'color')
 
 
+class SizeSerializer(TranslatedMixin, serializers.ModelSerializer):
+    price = serializers.DecimalField(max_digits=10, decimal_places=2, source='effective_price', read_only=True)
+    final_price = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
+
+    class Meta:
+        model = models.ProductSize
+        fields = ('id', 'name', 'price', 'final_price')
+        translated = ('name',)
+
+
 class ProductListSerializer(TranslatedMixin, serializers.ModelSerializer):
     category = serializers.SlugRelatedField(slug_field='slug', read_only=True)
     category_name = serializers.SerializerMethodField()
@@ -50,8 +60,16 @@ class ProductListSerializer(TranslatedMixin, serializers.ModelSerializer):
         return obj.category.tr('name')
 
     def get_image(self, obj):
-        first = next(iter(obj.images.all()), None)  # uses prefetch
+        first = next(iter(self._all_images(obj)), None)
         return first.image.url if first else None
+
+    @staticmethod
+    def _all_images(obj):
+        """A product's own pictures, followed by those of the products it contains (if a collection)."""
+        images = list(obj.images.all())  # uses prefetch
+        for item in obj.bundle_items.all():
+            images.extend(item.product.images.all())
+        return images
 
 
 class CollectionItemSerializer(serializers.ModelSerializer):
@@ -63,13 +81,22 @@ class CollectionItemSerializer(serializers.ModelSerializer):
 
 
 class ProductDetailSerializer(ProductListSerializer):
-    images = ProductImageSerializer(many=True, read_only=True)
+    images = serializers.SerializerMethodField()
+    sizes = SizeSerializer(many=True, read_only=True)
     items = CollectionItemSerializer(source='bundle_items', many=True, read_only=True)
     items_total = serializers.SerializerMethodField()
 
     class Meta(ProductListSerializer.Meta):
-        fields = ProductListSerializer.Meta.fields + ('description', 'images', 'items', 'items_total')
+        fields = ProductListSerializer.Meta.fields + ('description', 'images', 'sizes', 'items', 'items_total')
         translated = ('name', 'description')
+
+    def get_images(self, obj):
+        own = {i.id for i in obj.images.all()}
+        data = ProductImageSerializer(self._all_images(obj), many=True, context=self.context).data
+        for row in data:
+            if row['id'] not in own:
+                row['color'] = None  # contained products' colours don't apply to the collection's picker
+        return data
 
     def get_items_total(self, obj):
         """Price of the contents if bought separately (lets the shop show the saving)."""

@@ -18,26 +18,29 @@ export const useCart = defineStore('cart', {
   getters: {
     count: (s) => s.items.reduce((n, i) => n + i.quantity, 0),
     total: (s) => s.items.reduce((n, i) => n + i.unitPrice * i.quantity, 0),
-    payload: (s) => s.items.map((i) => ({ product: i.product, color: i.color, quantity: i.quantity })),
+    payload: (s) => s.items.map((i) => ({ product: i.product, color: i.color, size: i.size ?? null, quantity: i.quantity })),
   },
   actions: {
     _save() {
       localStorage.setItem(KEY, JSON.stringify(this.items))
     },
-    add(product, color, quantity = 1) {
+    add(product, color, quantity = 1, size = null) {
       const colorId = color?.id ?? null
-      const found = this.items.find((i) => i.product === product.id && i.color === colorId)
+      const sizeId = size?.id ?? null
+      const found = this.items.find((i) => i.product === product.id && i.color === colorId && (i.size ?? null) === sizeId)
       if (found) found.quantity = Math.min(99, found.quantity + quantity)
       else
         this.items.push({
           product: product.id,
           color: colorId,
           colorName: color?.name ?? '',
+          size: sizeId,
+          sizeName: size?.name ?? '',
           quantity,
           name: product.name,
           slug: product.slug,
           image: product.image,
-          unitPrice: Number(product.final_price),
+          unitPrice: Number(size ? size.final_price : product.final_price),
         })
       this._save()
     },
@@ -63,6 +66,8 @@ export const useCart = defineStore('cart', {
             product: l.product.id,
             color: l.color?.id ?? null,
             colorName: l.color?.name ?? '',
+            size: l.size?.id ?? null,
+            sizeName: l.size?.name ?? '',
             quantity: l.quantity,
             name: l.product.name,
             slug: l.product.slug,
