@@ -1,4 +1,7 @@
+from django.conf import settings
 from rest_framework import generics, viewsets
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from . import models, serializers as s
 
@@ -34,3 +37,8 @@ class SlideList(generics.ListAPIView):
     serializer_class = s.SlideSerializer
     queryset = models.Slide.objects.filter(is_active=True)
     pagination_class = None
+
+
+class SocialLinks(APIView):
+    def get(self, request):
+        return Response({'facebook': settings.FB_DIDOSTATI, 'instagram': settings.IG_DIDOSTATI})
