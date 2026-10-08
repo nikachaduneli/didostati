@@ -39,3 +39,12 @@ class SlideSerializer(TranslatedMixin, serializers.ModelSerializer):
         model = models.Slide
         fields = ('id', 'image', 'title', 'subtitle', 'link')
         translated = ('title', 'subtitle')
+
+
+class PartnerSerializer(TranslatedMixin, serializers.ModelSerializer):
+    logo = ImageField()
+
+    class Meta:
+        model = models.Partner
+        fields = ('id', 'name', 'logo', 'link')
+        translated = ('name',)

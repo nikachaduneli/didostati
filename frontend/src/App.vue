@@ -2,6 +2,7 @@
 import SiteHeader from './components/SiteHeader.vue'
 import SiteFooter from './components/SiteFooter.vue'
 import BlogStrip from './components/BlogStrip.vue'
+import PartnersStrip from './components/PartnersStrip.vue'
 import { watch } from 'vue'
 import { useCart } from './stores/cart'
 import { lang } from './i18n'
@@ -17,5 +18,6 @@ watch(lang, () => cart.refresh())
     <RouterView :key="$route.fullPath + lang" />
   </main>
   <BlogStrip :key="lang" />
+  <PartnersStrip :key="lang" />
   <SiteFooter />
 </template>

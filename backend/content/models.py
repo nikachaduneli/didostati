@@ -76,3 +76,21 @@ class Slide(Translatable, models.Model):
 
     def __str__(self):
         return self.title or f'Slide {self.pk}'
+
+
+class Partner(Translatable, models.Model):
+    """Partner logo shown at the bottom of every page."""
+    name = models.CharField(_('name'), max_length=120)
+    name_ka = models.CharField(_('name (Georgian)'), max_length=120, blank=True)
+    logo = models.ImageField(_('logo'), upload_to='partners/')
+    link = models.URLField(_('link'), blank=True, help_text=_('Optional website address, e.g. https://example.com'))
+    order = models.PositiveIntegerField(_('order'), default=0)
+    is_active = models.BooleanField(_('active'), default=True)
+
+    class Meta:
+        ordering = ['order', 'id']
+        verbose_name = _('partner')
+        verbose_name_plural = _('partners')
+
+    def __str__(self):
+        return self.name

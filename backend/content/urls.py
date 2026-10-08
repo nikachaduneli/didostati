@@ -9,6 +9,7 @@ router.register('blogs', views.BlogViewSet, basename='blog')
 urlpatterns = [
     path('pages/<slug:slug>/', views.PageDetail.as_view()),
     path('slides/', views.SlideList.as_view()),
+    path('partners/', views.PartnerList.as_view()),
     path('social/', views.SocialLinks.as_view()),
     path('contact/', views.ContactCreate.as_view()),
 ] + router.urls

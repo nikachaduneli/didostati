@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: didostati\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-08 14:01+0000\n"
+"POT-Creation-Date: 2026-10-08 14:20+0000\n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -78,13 +78,14 @@ msgid "Apply bulk discount to selected products"
 msgstr "შერჩეულ პროდუქტებზე ფასდაკლების დადება"
 
 #: catalog/models.py:13 catalog/models.py:30 catalog/models.py:46
-#: catalog/models.py:84 content/models.py:47 shop/models.py:40
-#: shop/models.py:58 shop/models.py:74 shop/models.py:157
+#: catalog/models.py:84 content/models.py:47 content/models.py:83
+#: shop/models.py:40 shop/models.py:58 shop/models.py:74 shop/models.py:157
 msgid "name"
 msgstr "სახელი"
 
 #: catalog/models.py:14 catalog/models.py:31 catalog/models.py:47
-#: catalog/models.py:85 shop/models.py:41 shop/models.py:59 shop/models.py:75
+#: catalog/models.py:85 content/models.py:84 shop/models.py:41
+#: shop/models.py:59 shop/models.py:75
 msgid "name (Georgian)"
 msgstr "სახელი (ქართულად)"
 
@@ -160,7 +161,8 @@ msgstr "პოპულარული"
 msgid "Show in \"Popular products\" on the main page."
 msgstr "გამოჩნდეს მთავარ გვერდზე „პოპულარული პროდუქტების“ სექციაში."
 
-#: catalog/models.py:57 content/models.py:70 shop/models.py:86
+#: catalog/models.py:57 content/models.py:70 content/models.py:88
+#: shop/models.py:86
 msgid "active"
 msgstr "აქტიური"
 
@@ -239,6 +241,10 @@ msgstr "პროდუქტის სურათი"
 #: catalog/models.py:145 shop/models.py:114
 msgid "product images"
 msgstr "პროდუქტის სურათები"
+
+#: content/admin.py:51 content/models.py:85
+msgid "logo"
+msgstr "ლოგო"
 
 #: content/models.py:10 core/models.py:21 shop/models.py:42 shop/models.py:76
 #: shop/models.py:119 shop/models.py:138
@@ -338,7 +344,7 @@ msgstr "ქვესათაური"
 msgid "subtitle (Georgian)"
 msgstr "ქვესათაური (ქართულად)"
 
-#: content/models.py:68
+#: content/models.py:68 content/models.py:86
 msgid "link"
 msgstr "ბმული"
 
@@ -346,7 +352,8 @@ msgstr "ბმული"
 msgid "Optional, e.g. /shop or https://..."
 msgstr "არასავალდებულო, მაგ. /shop ან https://..."
 
-#: content/models.py:69 orders/models.py:22 shop/models.py:216
+#: content/models.py:69 content/models.py:87 orders/models.py:22
+#: shop/models.py:216
 msgid "order"
 msgstr "შეკვეთა"
 
@@ -357,6 +364,18 @@ msgstr "სლაიდი"
 #: content/models.py:75
 msgid "slides"
 msgstr "სლაიდები"
+
+#: content/models.py:86
+msgid "Optional website address, e.g. https://example.com"
+msgstr "არასავალდებულო ვებსაიტის მისამართი, მაგ. https://example.com"
+
+#: content/models.py:92
+msgid "partner"
+msgstr "პარტნიორი"
+
+#: content/models.py:93
+msgid "partners"
+msgstr "პარტნიორები"
 
 #: core/models.py:42 shop/models.py:172
 msgid "full name"

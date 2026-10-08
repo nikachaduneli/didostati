@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from django.utils.translation import gettext_lazy as _
 
 from . import models
 
@@ -40,3 +41,13 @@ class SlideAdmin(admin.ModelAdmin):
     fields = ('image', 'preview_large', 'title', 'title_ka', 'subtitle', 'subtitle_ka', 'link', 'order', 'is_active')
 
 
+
+@admin.register(models.Partner)
+class PartnerAdmin(admin.ModelAdmin):
+    list_display = ('logo_preview', 'name', 'link', 'order', 'is_active')
+    list_display_links = ('logo_preview', 'name')
+    list_editable = ('order', 'is_active')
+
+    @admin.display(description=_('logo'))
+    def logo_preview(self, obj):
+        return format_html('<img src="{}" style="height:40px">', obj.logo.url) if obj.logo else '-'

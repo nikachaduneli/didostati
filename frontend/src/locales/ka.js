@@ -93,6 +93,7 @@ export default {
   'products': 'პროდუქტი',
   'Popular products': 'პოპულარული პროდუქტები',
   'See all →': 'ყველას ნახვა →',
+  'Our partners': 'ჩვენი პარტნიორები',
   'From our blog': 'ჩვენი ბლოგიდან',
   'All posts →': 'ყველა პოსტი →',
   'Page not found': 'გვერდი ვერ მოიძებნა',

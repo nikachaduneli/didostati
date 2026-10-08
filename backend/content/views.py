@@ -39,6 +39,12 @@ class SlideList(generics.ListAPIView):
     pagination_class = None
 
 
+class PartnerList(generics.ListAPIView):
+    serializer_class = s.PartnerSerializer
+    queryset = models.Partner.objects.filter(is_active=True)
+    pagination_class = None
+
+
 class SocialLinks(APIView):
     def get(self, request):
         return Response({'facebook': settings.FB_DIDOSTATI, 'instagram': settings.IG_DIDOSTATI})

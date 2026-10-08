@@ -16,7 +16,7 @@ from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 from accounts.models import Address, User
 from catalog import models
-from content.models import Blog, ContactMessage, Page, Slide
+from content.models import Blog, ContactMessage, Page, Partner, Slide
 from orders.models import Order, OrderItem
 
 DEMO_EMAIL = 'demo@didostati.example'
@@ -96,6 +96,14 @@ PAGES = [
      '<p>ეს ტექსტი შეგიძლიათ შეცვალოთ ადმინისტრატორის პანელიდან (გვერდები &rarr; კონტაქტი).</p>'),
 ]
 
+# (name, name_ka, link, hex)
+PARTNERS = [
+    ('Linen & Co', 'სელი და კომპანია', 'https://example.com/linen', '#c8553d'),
+    ('Ceramica Studio', 'კერამიკის სტუდია', 'https://example.com/ceramica', '#588b8b'),
+    ('Glass Works', 'მინის სახელოსნო', 'https://example.com/glass', '#3a6ea5'),
+    ('Tbilisi Crafts', 'თბილისის ხელოსნები', '', '#6d597a'),
+]
+
 BLOGS = [
     ('Welcome to Didostati', 'კეთილი იყოს თქვენი მობრძანება Didostati-ში',
      'Who we are and what you will find here.', 'ვინ ვართ და რას იპოვით აქ.',
@@ -168,12 +176,13 @@ class Command(BaseCommand):
             self.seed_collections(catalog, colors)
             self.seed_pages()
             self.seed_blogs()
+            self.seed_partners()
             self.seed_user_and_orders()
         self.stdout.write(self.style.SUCCESS(
             f'Demo data ready. Sign in as {DEMO_EMAIL} / {DEMO_PASSWORD}.'))
 
     def reset(self):
-        for model in (Order, Slide, Blog, Page, ContactMessage, models.Product, models.Category, models.Color):
+        for model in (Order, Slide, Partner, Blog, Page, ContactMessage, models.Product, models.Category, models.Color):
             model.objects.all().delete()
         User.objects.filter(email=DEMO_EMAIL).delete()
         self.stdout.write('Existing demo content deleted.')
@@ -265,6 +274,15 @@ class Command(BaseCommand):
             b.cover_image.save(f'blog{n}.jpg', placeholder(title, tones[n % len(tones)], (1000, 600)), save=False)
             b.save()
         self.stdout.write('Blog posts created.')
+
+    def seed_partners(self):
+        if Partner.objects.exists():
+            return
+        for n, (name, name_ka, link, hx) in enumerate(PARTNERS):
+            partner = Partner(name=name, name_ka=name_ka, link=link, order=n)
+            partner.logo.save(f'partner-{n}.jpg', placeholder(name, hx, (400, 200)), save=False)
+            partner.save()
+        self.stdout.write('Partners created.')
 
     def seed_user_and_orders(self):
         user, created = User.objects.get_or_create(
