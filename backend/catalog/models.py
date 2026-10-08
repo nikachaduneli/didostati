@@ -143,3 +143,6 @@ class ProductImage(models.Model):
         ordering = ['order', 'id']
         verbose_name = _('product image')
         verbose_name_plural = _('product images')
+
+    def __str__(self):
+        return f'{self.product} #{self.order}'

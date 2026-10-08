@@ -39,6 +39,10 @@ class OrderItem(models.Model):
         verbose_name = _('order item')
         verbose_name_plural = _('order items')
 
+    def __str__(self):
+        options = ', '.join(x for x in (self.color_name, self.size_name) if x)
+        return f'{self.quantity} × {self.product_name}' + (f' ({options})' if options else '')
+
     @property
     def line_total(self):
         return self.unit_price * self.quantity
