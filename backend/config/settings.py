@@ -212,3 +212,20 @@ CKEDITOR_5_CONFIGS = {
 
 IG_DIDOSTATI = 'https://www.instagram.com/didostati.collection/'
 FB_DIDOSTATI = 'https://www.facebook.com/didostati.collection'
+
+# --- Order notification email -------------------------------------------------
+# Every new order is emailed to ORDER_NOTIFICATION_EMAIL (leave empty to disable).
+# Fill in SMTP_HOST to really send mail; until then messages are printed to the console.
+ORDER_NOTIFICATION_EMAIL = ''
+ORDER_CURRENCY = '₾'
+SMTP_HOST = 'smtp.gmail.com'
+SMTP_PORT = 587
+SMTP_USER = ''
+SMTP_PASSWORD = ''
+DEFAULT_FROM_EMAIL = SMTP_USER or 'orders@didostati.local'
+if SMTP_HOST:
+    MAILERS = {'default': {
+        'BACKEND': 'django.core.mail.backends.smtp.EmailBackend',
+        'OPTIONS': {'host': SMTP_HOST, 'port': SMTP_PORT, 'username': SMTP_USER,
+                    'password': SMTP_PASSWORD, 'use_tls': True},
+    }}

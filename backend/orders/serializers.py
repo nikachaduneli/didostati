@@ -1,9 +1,11 @@
 from django.db import transaction
+
 from rest_framework import serializers
 
 from catalog.models import Product
 from catalog.serializers import ColorSerializer, ProductListSerializer, SizeSerializer
 from . import models
+from .emails import send_order_notification
 
 
 class CartLineInputSerializer(serializers.Serializer):
@@ -96,4 +98,5 @@ class OrderSerializer(serializers.ModelSerializer):
                              unit_price=l['unit_price'], quantity=l['quantity'])
             for l in priced
         ])
+        transaction.on_commit(lambda: send_order_notification(order))
         return order
