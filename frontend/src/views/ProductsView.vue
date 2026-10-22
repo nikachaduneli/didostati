@@ -49,7 +49,7 @@ watch(() => route.fullPath, load)
 
 <template>
   <h1>{{ current ? current.name : f.search ? t('Results for “{q}”', { q: f.search }) : t('All products') }}</h1>
-  <p v-if="current?.description" class="muted">{{ current.description }}</p>
+  <div v-if="current?.description" class="muted rich" v-html="current.description"></div>
 
   <div class="layout">
     <aside class="card">
