@@ -28,7 +28,7 @@ export async function api(path, { method = 'GET', body, params } = {}) {
   const headers = { 'X-Lang': lang.value }
   if (body) headers['Content-Type'] = 'application/json'
   const token = localStorage.getItem('token')
-  if (token) headers.Authorization = 'Token ' + token
+  if (token) headers.Authorization = 'Bearer ' + token
   const res = await fetch(url, { method, headers, body: body ? JSON.stringify(body) : undefined })
   if (res.status === 204) return null
   const data = await res.json().catch(() => null)

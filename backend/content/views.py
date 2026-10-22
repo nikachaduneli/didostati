@@ -3,16 +3,18 @@ from rest_framework import generics, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from core.cache import CachedResponseMixin
+
 from . import models, serializers as s
 
 
-class PageDetail(generics.RetrieveAPIView):
+class PageDetail(CachedResponseMixin, generics.RetrieveAPIView):
     serializer_class = s.PageSerializer
     lookup_field = 'slug'
     queryset = models.Page.objects.all()
 
 
-class BlogViewSet(viewsets.ReadOnlyModelViewSet):
+class BlogViewSet(CachedResponseMixin, viewsets.ReadOnlyModelViewSet):
     lookup_field = 'slug'
     queryset = models.Blog.objects.filter(is_published=True)
 
@@ -33,13 +35,13 @@ class ContactCreate(generics.CreateAPIView):
     serializer_class = s.ContactMessageSerializer
 
 
-class SlideList(generics.ListAPIView):
+class SlideList(CachedResponseMixin, generics.ListAPIView):
     serializer_class = s.SlideSerializer
     queryset = models.Slide.objects.filter(is_active=True)
     pagination_class = None
 
 
-class PartnerList(generics.ListAPIView):
+class PartnerList(CachedResponseMixin, generics.ListAPIView):
     serializer_class = s.PartnerSerializer
     queryset = models.Partner.objects.filter(is_active=True)
     pagination_class = None

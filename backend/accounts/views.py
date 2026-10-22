@@ -1,10 +1,9 @@
 from django.contrib.auth import authenticate
 from rest_framework import permissions, status, viewsets
-from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from . import models, serializers as s
+from . import models, serializers as s, tokens
 
 
 class AddressViewSet(viewsets.ModelViewSet):
@@ -21,8 +20,7 @@ class AddressViewSet(viewsets.ModelViewSet):
 
 
 def auth_response(user):
-    token, _ = Token.objects.get_or_create(user=user)
-    return Response({'token': token.key, 'user': s.UserSerializer(user).data})
+    return Response({'token': tokens.create(user), 'user': s.UserSerializer(user).data})
 
 
 class Register(APIView):
@@ -48,5 +46,5 @@ class Me(APIView):
         return Response(s.UserSerializer(request.user).data)
 
     def delete(self, request):  # logout
-        Token.objects.filter(user=request.user).delete()
+        tokens.revoke(request.auth)
         return Response(status=status.HTTP_204_NO_CONTENT)

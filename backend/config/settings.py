@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,12 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-sf9c$qcz_)nk+ta+3w_*kgkp_9-%1+lj!4xirv5&7c&l9#4w%d'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY',
+                            'django-insecure-sf9c$qcz_)nk+ta+3w_*kgkp_9-%1+lj!4xirv5&7c&l9#4w%d')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '1') == '1'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [h for h in os.environ.get('DJANGO_ALLOWED_HOSTS', '').split(',') if h]
 
 # The Vite dev server (localhost:5173) proxies /admin to Django, so POSTs arrive
 # with that Origin; without this Django rejects them with a CSRF error.
@@ -34,7 +36,9 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:5173',
     'http://localhost:8000',
     'http://127.0.0.1:8000',
-]
+] + [o for o in os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',') if o]
+# Behind nginx (docker compose): trust its header saying whether the visitor used HTTPS.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Application definition
@@ -47,7 +51,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'rest_framework.authtoken',
     'django_ckeditor_5',
     'core',
     'catalog',
@@ -96,10 +99,33 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRES_DB', 'didostati'),
+        'USER': os.environ.get('POSTGRES_USER', 'didostati'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', 'didostati'),
+        'HOST': os.environ.get('POSTGRES_HOST', 'localhost'),
+        'PORT': os.environ.get('POSTGRES_PORT', '5432'),
+        'CONN_MAX_AGE': 60,
+        'CONN_HEALTH_CHECKS': True,
     }
 }
+
+
+# Redis: database 0 is the cache, database 1 holds login tokens (accounts/tokens.py).
+REDIS_URL = os.environ.get('REDIS_URL', 'redis://localhost:6379')
+REDIS_TOKENS_URL = f'{REDIS_URL}/1'
+# A login token stays valid for this many seconds after it was last used.
+AUTH_TOKEN_TTL = 30 * 24 * 3600
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': f'{REDIS_URL}/0',
+        'KEY_PREFIX': 'didostati',
+    }
+}
+# Admin sessions are read from Redis and kept in the database as a fallback.
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 
 # Password validation
@@ -162,7 +188,7 @@ STATICFILES_DIRS = [d for d in [BASE_DIR.parent / 'frontend' / 'dist'] if d.exis
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication'],
+    'DEFAULT_AUTHENTICATION_CLASSES': ['accounts.tokens.RedisTokenAuthentication'],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 12,
 }

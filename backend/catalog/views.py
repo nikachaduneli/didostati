@@ -1,10 +1,10 @@
 from django.db.models import Count, Q
 from rest_framework import generics
-
+from core.cache import CachedResponseMixin
 from . import models, serializers as s
 
 
-class CategoryList(generics.ListAPIView):
+class CategoryList(CachedResponseMixin, generics.ListAPIView):
     serializer_class = s.CategorySerializer
     pagination_class = None
 
@@ -13,7 +13,7 @@ class CategoryList(generics.ListAPIView):
             product_count=Count('products', filter=Q(products__is_active=True)))
 
 
-class ProductList(generics.ListAPIView):
+class ProductList(CachedResponseMixin, generics.ListAPIView):
     """Query params: category, search, popular, on_sale, min_price, max_price, ordering."""
     serializer_class = s.ProductListSerializer
     ORDERINGS = {'newest': '-created_at', 'price_asc': 'price', 'price_desc': '-price', 'name': 'name'}
@@ -49,7 +49,7 @@ class ProductList(generics.ListAPIView):
         return super().paginate_queryset(queryset)
 
 
-class ProductDetail(generics.RetrieveAPIView):
+class ProductDetail(CachedResponseMixin, generics.RetrieveAPIView):
     serializer_class = s.ProductDetailSerializer
     lookup_field = 'slug'
     queryset = models.Product.objects.filter(is_active=True).select_related('category') \

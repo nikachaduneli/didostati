@@ -1,25 +1,40 @@
 # Didostati
 
-Simple e-commerce shop. Django + DRF (SQLite) backend in `backend/`, Vue 3 (Vite) frontend in `frontend/`.
+Simple e-commerce shop. Django + DRF backend in `backend/` (PostgreSQL database, Redis for the cache and login
+tokens), Vue 3 (Vite) frontend in `frontend/`.
 
-## First-time setup
+## Run with Docker
 ```bash
-.venv/bin/pip install django djangorestframework pillow django-ckeditor-5
+cp .env.example .env                                      # optional: change passwords / secret key / ports
+docker compose up -d --build                              # shop on http://localhost:8000, admin on /admin/
+docker compose exec backend python manage.py createsuperuser
+docker compose exec backend python manage.py seed_demo    # optional demo data
+```
+Services: `db` (PostgreSQL), `redis`, `backend` (gunicorn; runs migrations and collectstatic on start) and `nginx`
+(serves `/static/` and `/media/`, forwards the rest). Data lives in the `postgres`, `redis` and `media` volumes.
+
+## Local development (without Docker for Django)
+Start only PostgreSQL and Redis, then run Django and Vite on your machine:
+```bash
+docker compose up -d db redis
+.venv/bin/pip install -r backend/requirements.txt
 cd backend
 ../.venv/bin/python manage.py migrate
 ../.venv/bin/python manage.py seed_demo          # optional demo categories/products/blogs/pages
 ../.venv/bin/python manage.py createsuperuser    # admin login
 cd ../frontend && npm install
 ```
+Django connects to `localhost:5432` and `localhost:6379` by default; override with `POSTGRES_HOST`, `POSTGRES_PORT`
+and `REDIS_URL` (e.g. `REDIS_URL=redis://localhost:6380` when `REDIS_HOST_PORT=6380`).
 
 ## Backend apps
 - `core` – shared abstract models (translations, auto slug, address fields)
 - `catalog` – categories, colours, products (+ `seed_demo` command)
 - `content` – pages, blog posts, contact messages
-- `accounts` – addresses, register/login
+- `accounts` – addresses, register/login (bearer tokens stored in Redis, see `accounts/tokens.py`)
 - `orders` – cart pricing, orders
 
-## Development (two terminals)
+## Development servers (two terminals)
 ```bash
 cd backend  && ../.venv/bin/python manage.py runserver     # API + admin on :8000
 cd frontend && npm run dev                                 # shop on http://localhost:5173
