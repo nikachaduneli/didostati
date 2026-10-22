@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import { useCart } from '../stores/cart'
 import { useAuth } from '../stores/auth'
 import { lang, setLang, t } from '../i18n'
-import logo from '../assets/logo.svg'
+import logo from '../assets/logo.jpg'
 
 const cart = useCart()
 const auth = useAuth()
@@ -21,7 +21,7 @@ function search() {
 <template>
   <header class="top">
     <div class="wrap bar">
-      <RouterLink to="/" class="logo"><img :src="logo" alt="" class="logo-img" />Didostati</RouterLink>
+      <RouterLink to="/" class="logo"><img :src="logo" alt="didostati logo" class="logo-img" />Didostati</RouterLink>
       <button class="burger" :aria-label="t('Menu')" @click="open = !open">☰</button>
       <nav :class="{ open }" @click="open = false">
         <RouterLink to="/">{{ t('Home') }}</RouterLink>
@@ -86,7 +86,7 @@ nav a.admin-link:hover { color: #fff; opacity: .85; }
 .actions { display: flex; gap: 18px; align-items: center; font-weight: 500; }
 .badge { background: var(--accent); color: #fff; border-radius: 999px; font-size: .75rem; padding: 2px 7px; margin-left: 2px; }
 .burger { display: none; background: none; border: 0; font-size: 1.5rem; color: inherit; margin-left: auto; cursor: pointer; }
-.logo-img { height: 1.8em; width: auto; }
+.logo-img { height: 1.8em; width: auto; border-radius: 20%}
 
 @media (max-width: 820px) {
   .bar { gap: 10px 12px; min-height: 56px; padding-top: 8px; padding-bottom: 8px; }
