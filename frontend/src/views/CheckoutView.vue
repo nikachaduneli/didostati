@@ -18,6 +18,12 @@ const chosen = ref('')
 const saveAddress = ref(false)
 const busy = ref(false)
 const error = ref('')
+const methods = ref([])
+const provider = ref('')
+api('/payments/methods/').then((m) => {
+  methods.value = m
+  provider.value = m[0]?.key || ''
+}).catch(() => {})
 
 if (auth.loggedIn) {
   api('/addresses/').then((list) => {
@@ -35,9 +41,14 @@ async function submit() {
   busy.value = true
   error.value = ''
   try {
-    const order = await api('/orders/', { method: 'POST', body: { ...form, lines: cart.payload } })
+    const order = await api('/orders/', { method: 'POST', body: { ...form, provider: provider.value, lines: cart.payload } })
     if (auth.loggedIn && saveAddress.value && !chosen.value) {
       await api('/addresses/', { method: 'POST', body: { label: 'Saved at checkout', ...Object.fromEntries(Object.keys(empty).map((k) => [k, form[k]])) } }).catch(() => {})
+    }
+    if (order.payment_url) {
+      // Card payment: the bank's page takes over. The cart is only emptied once the payment succeeded.
+      window.location.href = order.payment_url
+      return
     }
     sessionStorage.setItem('lastOrder', JSON.stringify(order))
     cart.clear()
@@ -86,8 +97,19 @@ async function submit() {
       <div class="field"><label for="note">{{ t('Order note (optional)') }}</label><textarea id="note" v-model="form.note" rows="2"></textarea></div>
       <div v-if="auth.loggedIn && !chosen" class="field"><label class="check"><input v-model="saveAddress" type="checkbox" /> {{ t('Save this address to my account') }}</label></div>
 
-      <button class="btn" :disabled="busy">{{ busy ? t('Placing order…') : t('Place order') }}</button>
-      <p class="muted"><small>{{ t('Payment is collected on delivery.') }}</small></p>
+      <fieldset v-if="methods.length" class="pay">
+        <legend>{{ t('Payment method') }}</legend>
+        <label v-for="m in methods" :key="m.key" class="check">
+          <input v-model="provider" type="radio" name="provider" :value="m.key" />
+          <span v-if="m.key === 'cod'">{{ t('Pay on delivery') }}</span>
+          <span v-else-if="m.key === 'mock'">{{ t('Test payment (development)') }}</span>
+          <span v-else>{{ t('Pay by card') }} — {{ m.label }} <small class="muted">(Visa, Mastercard)</small></span>
+        </label>
+      </fieldset>
+      <p v-else class="muted">{{ t('No payment method is available right now.') }}</p>
+
+      <button class="btn" :disabled="busy || !provider">{{ busy ? t('Placing order…') : provider === 'cod' ? t('Place order') : t('Continue to payment') }}</button>
+      <p class="muted"><small v-if="provider === 'cod'">{{ t('Payment is collected on delivery.') }}</small><small v-else>{{ t('You will be taken to your bank\'s secure page to pay by card. Cards from any country are accepted.') }}</small></p>
     </form>
 
     <aside class="card">
@@ -102,6 +124,8 @@ async function submit() {
 </template>
 
 <style scoped>
+.pay { border: 1px solid var(--line); border-radius: var(--radius); margin: 0 0 16px; padding: 10px 14px; display: grid; gap: 8px; }
+.pay legend { font-weight: 600; padding: 0 6px; }
 .layout { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start; }
 .row { display: flex; justify-content: space-between; gap: 12px; padding: 6px 0; }
 .tot { border-top: 1px solid var(--line); margin-top: 8px; padding-top: 12px; font-size: 1.15rem; }

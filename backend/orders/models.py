@@ -14,6 +14,12 @@ class Order(AddressFields):
     email = models.EmailField(_('email'))
     note = models.TextField(_('note'), blank=True)
     status = models.CharField(_('status'), max_length=20, choices=STATUSES, default='new')
+    PAYMENT_STATUSES = [('pending', _('Awaiting payment')), ('paid', _('Paid')), ('failed', _('Payment failed'))]
+    payment_provider = models.CharField(_('payment method'), max_length=20, blank=True,
+                                        help_text=_('Empty = pay on delivery.'))
+    payment_status = models.CharField(_('payment status'), max_length=10, choices=PAYMENT_STATUSES,
+                                      default='pending', blank=True)
+    payment_id = models.CharField(_('payment ID'), max_length=100, blank=True)
     total = models.DecimalField(_('total'), max_digits=12, decimal_places=2, default=0)
     created_at = models.DateTimeField(_('created at'), auto_now_add=True)
 

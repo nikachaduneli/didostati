@@ -68,6 +68,8 @@ async function logout() {
         <strong>{{ t('Order') }} #{{ o.id }}</strong>
         <span class="muted">{{ fdate(o.created_at) }}</span>
         <span class="status">{{ t(o.status) }}</span>
+        <span v-if="o.payment_status === 'pending'" class="muted">{{ t('Awaiting payment') }}</span>
+        <span v-else-if="o.payment_status === 'failed'" class="muted">{{ t('Payment failed') }}</span>
         <strong class="total">{{ money(o.total) }}</strong>
       </div>
       <div v-for="(i, n) in o.items" :key="n" class="item">

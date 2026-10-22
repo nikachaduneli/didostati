@@ -297,7 +297,8 @@ class Command(BaseCommand):
         Address.objects.create(user=user, label='Work', **{**address, 'line1': 'Chavchavadze Ave 10'})
         products = list(models.Product.objects.filter(is_active=True).prefetch_related('sizes', 'colors')[:6])
         for status, picks in (('delivered', products[:2]), ('processing', products[2:4]), ('new', products[4:6])):
-            order = Order.objects.create(user=user, email=user.email, status=status, note='Demo order', **address)
+            order = Order.objects.create(user=user, email=user.email, status=status, note='Demo order',
+                                         payment_provider='bog', payment_status='paid', payment_id=f'demo-{status}', **address)
             total = Decimal(0)
             for p in picks:
                 size, color = p.sizes.first(), p.colors.first()

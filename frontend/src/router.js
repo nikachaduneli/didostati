@@ -10,6 +10,7 @@ const routes = [
   { path: '/product/:slug', component: () => import('./views/ProductView.vue') },
   { path: '/cart', component: () => import('./views/CartView.vue'), meta: { title: 'Cart' } },
   { path: '/checkout', component: () => import('./views/CheckoutView.vue'), meta: { title: 'Checkout' } },
+  { path: '/payment/return', component: () => import('./views/PaymentReturnView.vue'), meta: { title: 'Payment' } },
   { path: '/order/done', component: () => import('./views/OrderDoneView.vue'), meta: { title: 'Thank you' } },
   { path: '/login', component: () => import('./views/AuthView.vue'), meta: { title: 'Sign in' } },
   { path: '/register', component: () => import('./views/AuthView.vue'), meta: { title: 'Create account' } },

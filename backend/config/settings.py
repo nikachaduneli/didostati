@@ -229,3 +229,28 @@ if SMTP_HOST:
         'OPTIONS': {'host': SMTP_HOST, 'port': SMTP_PORT, 'username': SMTP_USER,
                     'password': SMTP_PASSWORD, 'use_tls': True},
     }}
+
+
+# --- Card payments --------------------------------------------------------------
+# A gateway is offered at checkout only when its credentials are filled in. Both accept Visa and
+# Mastercard from any country (and local Georgian cards), so foreign customers can pay too.
+# Prices are in GEL; the gateway converts for foreign cards.
+#
+# Public address of the site, used to build the return and callback URLs sent to the banks.
+# Banks only call back to a public HTTPS address, so set this in production (e.g. 'https://didostati.ge').
+# When empty the address of the current request is used.
+SITE_URL = ''
+
+# Bank of Georgia - https://api.bog.ge/docs/en/payments/introduction
+BOG_CLIENT_ID = ''
+BOG_CLIENT_SECRET = ''
+
+# TBC Bank (Checkout / tpay) - https://developers.tbcbank.ge
+TBC_API_KEY = ''
+TBC_CLIENT_ID = ''
+TBC_CLIENT_SECRET = ''
+
+# Keep "pay on delivery" as a checkout option next to the card gateways.
+PAYMENT_CASH_ON_DELIVERY = True
+# Development only: adds a fake gateway that approves every payment instantly. NEVER enable in production.
+PAYMENT_MOCK_ENABLED = False
