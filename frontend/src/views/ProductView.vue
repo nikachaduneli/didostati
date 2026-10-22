@@ -139,36 +139,41 @@ function add(go) {
 .glow-enter-active, .glow-leave-active { transition: opacity .6s ease; }
 .glow-enter-from, .glow-leave-to { opacity: 0; }
 @media (prefers-reduced-motion: reduce) { .glow-enter-active, .glow-leave-active { transition: none; } }
-.main { position: relative; outline: none; aspect-ratio: 1; background: var(--line); border-radius: var(--radius); overflow: hidden; }
+.main { position: relative; aspect-ratio: 1; background: var(--plate); border-radius: var(--radius); overflow: hidden; }
 .main img { width: 100%; height: 100%; object-fit: cover; }
-.nav { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border: 0; border-radius: 50%; background: rgba(255,255,255,.85); font-size: 1.6rem; line-height: 1; cursor: pointer; }
+.nav { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border: 0; border-radius: 50%; background: rgba(255, 253, 252, .9); color: var(--wine); font-size: 1.6rem; line-height: 1; padding: 0 0 3px; cursor: pointer; }
+.nav:hover { background: var(--card); }
 .prev { left: 10px; } .next { right: 10px; }
-.count { position: absolute; bottom: 10px; right: 10px; background: rgba(0,0,0,.55); color: #fff; font-size: .8rem; padding: 2px 10px; border-radius: 999px; }
+.count { position: absolute; bottom: 10px; right: 10px; background: rgba(43, 26, 33, .7); color: #fff; font-size: .8rem; padding: 2px 10px; border-radius: var(--radius); font-variant-numeric: tabular-nums; }
 .thumbs { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
-.thumbs img { width: 70px; height: 70px; object-fit: cover; border-radius: 8px; cursor: pointer; border: 2px solid transparent; }
-.thumbs img.on { border-color: var(--accent); }
-.big { font-size: 1.6rem; }
-.off { background: var(--sale); color: #fff; font-size: .85rem; padding: 2px 9px; border-radius: 999px; vertical-align: middle; }
-.desc { white-space: pre-line; color: var(--muted); }
+.thumbs img { width: 70px; height: 70px; object-fit: cover; border-radius: var(--radius); cursor: pointer; outline: 2px solid transparent; outline-offset: 2px; }
+.thumbs img.on { outline-color: var(--gold); }
+h1 { font-size: 3rem; margin-bottom: .3em; }
+.big { font-size: 1.6rem; margin: 0 0 20px; }
+.off { background: var(--gold-light); color: var(--wine-deep); font-size: .85rem; font-weight: 600; padding: 2px 8px; border-radius: var(--radius); vertical-align: middle; }
+.desc { white-space: pre-line; max-width: 60ch; margin-bottom: 24px; }
 .swatches { display: flex; gap: 10px; }
-.swatches button { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--line); cursor: pointer; padding: 0; box-shadow: inset 0 0 0 3px var(--card); }
-.swatches button.on { border-color: var(--accent); }
+.swatches button { width: 34px; height: 34px; border-radius: 50%; border: 0; cursor: pointer; padding: 0; box-shadow: inset 0 0 0 1px rgba(43, 26, 33, .2); outline: 2px solid transparent; outline-offset: 3px; }
+.swatches button.on { outline-color: var(--wine); }
+.swatches button:focus-visible { outline-color: var(--gold); }
 .sizes { display: flex; gap: 8px; flex-wrap: wrap; }
-.sizes button { min-width: 44px; padding: 8px 14px; border: 2px solid var(--line); border-radius: 8px; background: var(--card); font: inherit; cursor: pointer; }
-.sizes button.on { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+.sizes button { min-width: 44px; padding: 8px 14px; border: 1px solid var(--field-line); border-radius: var(--radius); background: var(--card); color: var(--ink); font: inherit; cursor: pointer; }
+.sizes button:hover { border-color: var(--wine); }
+.sizes button.on { border-color: var(--wine); background: var(--wine); color: var(--on-wine); }
 .qty { max-width: 110px; }
 .actions { display: flex; gap: 12px; flex-wrap: wrap; }
 .product > * { min-width: 0; }
 @media (max-width: 800px) { .product { grid-template-columns: 1fr; gap: 20px; overflow-x: clip; } }
 @media (max-width: 600px) {
+  h1 { font-size: 2.2rem; }
   .big { font-size: 1.4rem; }
   .thumbs { flex-wrap: nowrap; overflow-x: auto; }
   .thumbs img { flex: none; width: 60px; height: 60px; }
   .swatches button { width: 40px; height: 40px; }
   .actions .btn { flex: 1 1 100%; text-align: center; }
 }
-.includes { display: flex; flex-direction: column; gap: 8px; margin: 16px 0; padding: 14px; }
+.includes { display: flex; flex-direction: column; gap: 8px; margin: 0 0 24px; padding: 16px 18px; border-left: 3px solid var(--gold); }
 .inc { display: flex; align-items: center; gap: 10px; }
-.inc:hover span { color: var(--accent); }
-.inc img { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; flex: none; }
+.inc:hover span { color: var(--wine); text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 3px; }
+.inc img { width: 44px; height: 44px; object-fit: cover; border-radius: var(--radius); flex: none; }
 </style>

@@ -30,10 +30,10 @@ api('/partners/').then((d) => (partners.value = d)).catch(() => {})
 </template>
 
 <style scoped>
-.partners { padding: 40px 0; border-top: 1px solid var(--line); text-align: center; }
-.partners h2 { margin-bottom: 24px; }
-.logos { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 24px 40px; }
-.partner img { display: block; max-height: 56px; max-width: 150px; object-fit: contain; filter: grayscale(1); opacity: .75; transition: .2s; }
+.partners { padding: 48px 0 56px; border-top: 1px solid var(--line); text-align: center; }
+.partners h2 { font-size: 1.4rem; margin-bottom: 28px; color: var(--muted); }
+.logos { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 24px 48px; }
+.partner img { display: block; max-height: 56px; max-width: 150px; object-fit: contain; filter: grayscale(1); opacity: .7; transition: .2s; }
 a.partner:hover img { filter: none; opacity: 1; }
 @media (max-width: 600px) { .logos { gap: 18px 24px; } .partner img { max-height: 44px; max-width: 110px; } }
 </style>

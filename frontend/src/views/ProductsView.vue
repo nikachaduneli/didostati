@@ -100,16 +100,18 @@ watch(() => route.fullPath, load)
 </template>
 
 <style scoped>
-.layout { display: grid; grid-template-columns: 250px 1fr; gap: 28px; align-items: start; margin-top: 18px; }
-aside { position: sticky; top: 84px; }
+.layout { display: grid; grid-template-columns: 250px 1fr; gap: 40px; align-items: start; margin-top: 18px; }
+aside { position: sticky; top: 96px; }
 .cats { display: flex; flex-direction: column; gap: 2px; }
-.cats a { padding: 4px 8px; border-radius: 6px; color: var(--muted); }
-.cats a.on { background: var(--bg); color: var(--accent); font-weight: 700; }
+.cats a { padding: 5px 10px; border-left: 2px solid transparent; color: var(--muted); }
+.cats a:hover { color: var(--ink); }
+.cats a.on { border-color: var(--gold); color: var(--wine); font-weight: 600; }
 .pager { display: flex; justify-content: center; align-items: center; gap: 16px; margin-top: 30px; }
 @media (max-width: 800px) { .layout { grid-template-columns: 1fr; gap: 18px; } aside { position: static; } }
 @media (max-width: 600px) {
   .cats { flex-direction: row; flex-wrap: nowrap; overflow-x: auto; gap: 6px; padding-bottom: 4px; -webkit-overflow-scrolling: touch; }
-  .cats a { white-space: nowrap; border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; }
+  .cats a { white-space: nowrap; border: 1px solid var(--field-line); border-radius: var(--radius); padding: 6px 14px; }
+  .cats a.on { background: var(--wine); border-color: var(--wine); color: var(--on-wine); }
   .pager { gap: 8px; }
   .pager .muted { font-size: .85rem; text-align: center; }
 }

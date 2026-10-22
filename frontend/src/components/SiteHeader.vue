@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import { useCart } from '../stores/cart'
 import { useAuth } from '../stores/auth'
 import { lang, setLang, t } from '../i18n'
-import logo from '../assets/logo.jpg'
+import mark from '../assets/logo-mark.png'
 import { api } from '../api'
 
 const cart = useCart()
@@ -28,8 +28,10 @@ async function openAdmin() {
 <template>
   <header class="top">
     <div class="wrap bar">
-      <RouterLink to="/" class="logo"><img :src="logo" alt="didostati logo" class="logo-img" />Didostati</RouterLink>
-      <button class="burger" :aria-label="t('Menu')" @click="open = !open">☰</button>
+      <RouterLink to="/" class="logo" :style="{ '--mark': `url(${mark})` }">
+        <span class="mark" aria-hidden="true"></span>{{ lang === 'ka' ? 'დიდოსტატი' : 'Didostati' }}
+      </RouterLink>
+      <button class="burger" :aria-label="t('Menu')" :aria-expanded="open" @click="open = !open">☰</button>
       <nav :class="{ open }" @click="open = false">
         <RouterLink to="/">{{ t('Home') }}</RouterLink>
         <RouterLink to="/shop">{{ t('Shop') }}</RouterLink>
@@ -42,25 +44,8 @@ async function openAdmin() {
         <input v-model="q" type="search" :placeholder="t('Search products…')" :aria-label="t('Search products')" />
       </form>
       <div class="langs">
-        <button :class="{ on: lang === 'en' }" aria-label="English" title="English" @click="setLang('en')">
-          <svg viewBox="0 0 60 30" width="24" height="12" aria-hidden="true">
-            <rect width="60" height="30" fill="#012169"/>
-            <path d="M0 0l60 30M60 0L0 30" stroke="#fff" stroke-width="6"/>
-            <path d="M0 0l60 30M60 0L0 30" stroke="#C8102E" stroke-width="2"/>
-            <path d="M30 0v30M0 15h60" stroke="#fff" stroke-width="10"/>
-            <path d="M30 0v30M0 15h60" stroke="#C8102E" stroke-width="6"/>
-          </svg>
-        </button>
-        <button :class="{ on: lang === 'ka' }" aria-label="ქართული" title="ქართული" @click="setLang('ka')">
-          <svg viewBox="0 0 30 20" width="24" height="16" aria-hidden="true">
-            <rect width="30" height="20" fill="#fff"/>
-            <path d="M12 0h6v20h-6zM0 7h30v6H0z" fill="#FF0000"/>
-            <g fill="#FF0000">
-              <path id="kc" d="M4.5 2.5h1v1h1v1h-1v1h-1v-1h-1v-1h1z"/>
-              <use href="#kc" x="17"/><use href="#kc" y="11"/><use href="#kc" x="17" y="11"/>
-            </g>
-          </svg>
-        </button>
+        <button :class="{ on: lang === 'en' }" :aria-pressed="lang === 'en'" lang="en" title="English" @click="setLang('en')">EN</button>
+        <button :class="{ on: lang === 'ka' }" :aria-pressed="lang === 'ka'" lang="ka" title="ქართული" @click="setLang('ka')">ქა</button>
       </div>
       <div class="actions">
         <RouterLink v-if="auth.loggedIn" to="/account">{{ auth.user.first_name || t('Account') }}</RouterLink>
@@ -75,40 +60,50 @@ async function openAdmin() {
 </template>
 
 <style scoped>
-.top { position: sticky; top: 0; z-index: 10; background: var(--card); border-bottom: 1px solid var(--line); }
-.bar { display: flex; align-items: center; gap: 22px; min-height: 64px; flex-wrap: wrap; }
-.logo { display: inline-flex; align-items: center; gap: .5rem; font-size: 1.5rem; font-weight: 800; letter-spacing: -.02em; color: var(--accent); }
-nav { display: flex; gap: 18px; }
-nav a { color: var(--muted); font-weight: 500; }
-nav a:hover, nav a.router-link-exact-active { color: var(--ink); }
-nav a.admin-link { color: #fff; background: var(--accent); padding: 4px 12px; border-radius: 999px; font-size: .9rem; }
-nav a.admin-link:hover { color: #fff; opacity: .85; }
-.search { flex: 1; max-width: 320px; margin-left: auto; }
-.search input { border-radius: 999px; padding: 8px 16px; }
-.langs { display: flex; gap: 2px; border: 1px solid var(--line); border-radius: 999px; padding: 2px; }
-.langs button { border: 0; background: none; padding: 5px 8px; border-radius: 999px; cursor: pointer; display: inline-flex; align-items: center; opacity: .55; }
-.langs button svg { border-radius: 2px; box-shadow: 0 0 0 1px var(--line); }
-.langs button.on { background: var(--line); opacity: 1; }
+.top { position: sticky; top: 0; z-index: 10; background: var(--wine); color: var(--on-wine); }
+.top::after { content: ''; display: block; height: 2px; background: var(--hem); }
+.bar { display: flex; align-items: center; gap: 28px; min-height: 72px; flex-wrap: wrap; }
+.logo { display: inline-flex; align-items: center; gap: 10px; font-family: var(--display); font-stretch: 68%; font-size: 1.75rem; font-weight: 700; line-height: 1; color: var(--gold-light); }
+.mark { width: 40px; height: 40px; background: var(--gold-light); -webkit-mask: var(--mark) center / contain no-repeat; mask: var(--mark) center / contain no-repeat; transition: transform .6s ease; }
+.logo:hover .mark { transform: rotate(90deg); }
+nav { display: flex; gap: 22px; }
+nav a { color: rgba(248, 243, 241, .78); padding: 4px 0; border-bottom: 1.5px solid transparent; }
+nav a:hover { color: var(--on-wine); }
+nav a.router-link-exact-active { color: var(--on-wine); border-color: var(--gold-light); }
+nav a.admin-link { color: var(--wine); background: var(--gold-light); padding: 2px 10px; border: 0; border-radius: var(--radius); font-size: .9rem; font-weight: 600; }
+nav a.admin-link:hover { color: var(--wine-deep); }
+.search { flex: 1; max-width: 300px; margin-left: auto; }
+.search input { background: rgba(255, 255, 255, .1); border-color: rgba(248, 243, 241, .35); color: var(--on-wine); padding: 8px 14px; }
+.search input::placeholder { color: rgba(248, 243, 241, .65); }
+.search input:focus { background: rgba(255, 255, 255, .16); border-color: var(--gold-light); outline-color: var(--gold-light); }
+.langs { display: flex; }
+.langs button { border: 0; background: none; color: rgba(248, 243, 241, .65); font: inherit; font-size: .9rem; font-weight: 600; padding: 6px 7px; cursor: pointer; border-bottom: 1.5px solid transparent; }
+.langs button:hover { color: var(--on-wine); }
+.langs button.on { color: var(--gold-light); border-color: var(--gold-light); }
+.top :focus-visible { outline-color: var(--gold-light); }
 .cart { display: inline-flex; align-items: center; gap: 2px; }
-.actions { display: flex; gap: 18px; align-items: center; font-weight: 500; }
-.badge { background: var(--accent); color: #fff; border-radius: 999px; font-size: .75rem; padding: 2px 7px; margin-left: 2px; }
+.actions { display: flex; gap: 20px; align-items: center; }
+.actions a:hover { color: var(--gold-light); }
+.badge { background: var(--gold-light); color: var(--wine-deep); border-radius: 999px; font-size: .75rem; font-weight: 600; min-width: 20px; text-align: center; padding: 1px 6px; margin-left: 2px; }
 .burger { display: none; background: none; border: 0; font-size: 1.5rem; color: inherit; margin-left: auto; cursor: pointer; }
-.logo-img { height: 1.8em; width: auto; border-radius: 20%}
 
-@media (max-width: 820px) {
-  .bar { gap: 10px 12px; min-height: 56px; padding-top: 8px; padding-bottom: 8px; }
-  .logo { font-size: 1.3rem; order: 1; }
+@media (max-width: 900px) {
+  .bar { gap: 10px 14px; min-height: 60px; padding-top: 8px; padding-bottom: 8px; }
+  .logo { font-size: 1.5rem; order: 1; }
+  .mark { width: 34px; height: 34px; }
   .actions { order: 2; margin-left: auto; gap: 14px; white-space: nowrap; }
   .burger { display: block; order: 3; margin-left: 0; padding: 4px 8px; min-width: 44px; min-height: 44px; }
-  .search { order: 4; flex: 1 1 0; min-width: 0; max-width: none; margin: 0; }
+  .search { order: 4; flex: 1 1 220px; min-width: 0; max-width: none; margin: 0; }
   .langs { order: 5; }
   nav { display: none; order: 6; width: 100%; flex-direction: column; gap: 0; padding-bottom: 6px; }
-  nav a { padding: 11px 4px; border-top: 1px solid var(--line); }
+  nav a { padding: 12px 2px; border-bottom: 0; border-top: 1px solid rgba(248, 243, 241, .15); }
+  nav a.router-link-exact-active { color: var(--gold-light); }
   nav a.admin-link { align-self: flex-start; margin: 8px 0 4px; padding: 6px 14px; }
   nav.open { display: flex; }
 }
 @media (max-width: 380px) {
   .actions { gap: 10px; font-size: .9rem; }
-  .logo { font-size: 1.15rem; }
+  .logo { font-size: 1.3rem; }
 }
+@media (prefers-reduced-motion: reduce) { .mark { transition: none; } }
 </style>

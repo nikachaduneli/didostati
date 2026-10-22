@@ -1,7 +1,8 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import { t } from '../i18n'
+import { lang, t } from '../i18n'
 import { api } from '../api'
+import mark from '../assets/logo-mark.png'
 
 const social = ref({ facebook: '', instagram: '' })
 onMounted(async () => {
@@ -12,7 +13,9 @@ onMounted(async () => {
 <template>
   <footer>
     <div class="wrap">
-      <strong class="logo">Didostati</strong>
+      <RouterLink to="/" class="logo" :style="{ '--mark': `url(${mark})` }">
+        <span class="mark" aria-hidden="true"></span>{{ lang === 'ka' ? 'დიდოსტატი' : 'Didostati' }}
+      </RouterLink>
       <nav>
         <RouterLink to="/shop">{{ t('Shop') }}</RouterLink>
         <RouterLink to="/blog">{{ t('Blog') }}</RouterLink>
@@ -27,22 +30,27 @@ onMounted(async () => {
           <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
         </a>
       </div>
-      <span class="muted">© {{ new Date().getFullYear() }} Didostati</span>
+      <span class="copy">© {{ new Date().getFullYear() }} Didostati</span>
     </div>
   </footer>
 </template>
 
 <style scoped>
-footer { border-top: 1px solid var(--line); background: var(--card); padding: 28px 0; margin-top: 0; }
-.wrap { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; justify-content: space-between; }
-.logo { color: var(--accent); font-size: 1.2rem; }
-nav { display: flex; gap: 18px; }
-.social { display: flex; gap: 14px; }
-.social a { color: var(--muted); display: inline-flex; }
-.social a:hover { color: var(--accent); }
+footer { background: var(--wine); color: var(--on-wine); padding: 40px 0 32px; }
+footer::before { content: ''; display: block; height: 2px; background: var(--hem); margin-top: -40px; margin-bottom: 40px; }
+.wrap { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; justify-content: space-between; }
+.logo { display: inline-flex; align-items: center; gap: 10px; font-family: var(--display); font-stretch: 68%; font-size: 1.6rem; font-weight: 700; line-height: 1; color: var(--gold-light); }
+.mark { width: 36px; height: 36px; background: var(--gold-light); -webkit-mask: var(--mark) center / contain no-repeat; mask: var(--mark) center / contain no-repeat; }
+nav { display: flex; gap: 22px; }
+nav a { color: rgba(248, 243, 241, .8); }
+nav a:hover { color: var(--gold-light); }
+.social { display: flex; gap: 16px; }
+.social a { color: rgba(248, 243, 241, .8); display: inline-flex; }
+.social a:hover { color: var(--gold-light); }
+.copy { color: rgba(248, 243, 241, .65); font-size: .9rem; }
+footer :focus-visible { outline-color: var(--gold-light); }
 @media (max-width: 600px) {
-  footer { padding: 22px 0; }
-  .wrap { flex-direction: column; align-items: flex-start; gap: 14px; }
-  nav { flex-wrap: wrap; gap: 8px 18px; }
+  .wrap { flex-direction: column; align-items: flex-start; gap: 18px; }
+  nav { flex-wrap: wrap; gap: 8px 20px; }
 }
 </style>

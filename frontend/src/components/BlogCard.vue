@@ -15,10 +15,11 @@ defineProps({ post: Object })
 </template>
 
 <style scoped>
-.post { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: block; transition: transform .15s; }
-.post:hover { transform: translateY(-3px); }
-img { width: 100%; aspect-ratio: 16/10; object-fit: cover; }
-.body { padding: 14px 16px 18px; }
-h3 { font-size: 1.1rem; margin: 4px 0 6px; }
-p { margin: 0; }
+.post { display: block; }
+img { width: 100%; aspect-ratio: 3/2; object-fit: cover; border-radius: var(--radius); background: var(--plate); }
+.body { padding-top: 14px; }
+small { font-size: .85rem; }
+h3 { font-size: 1.4rem; margin: 2px 0 6px; }
+.post:hover h3 { text-decoration: underline; text-decoration-color: var(--gold); text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+p { margin: 0; max-width: 60ch; }
 </style>

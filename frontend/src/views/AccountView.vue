@@ -124,12 +124,12 @@ async function logout() {
 .head { display: flex; justify-content: space-between; align-items: start; }
 .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--line); margin-bottom: 22px; }
 .tabs button { background: none; border: 0; border-bottom: 3px solid transparent; padding: 10px 14px; font: inherit; font-weight: 600; color: var(--muted); cursor: pointer; }
-.tabs button.on { color: var(--accent); border-color: var(--accent); }
+.tabs button.on { color: var(--wine); border-color: var(--gold); }
 .order { margin-bottom: 16px; }
 .oh { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; margin-bottom: 8px; }
 .total { margin-left: auto; }
 .item { display: flex; justify-content: space-between; padding: 3px 0; }
-.status { background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 1px 10px; font-size: .8rem; text-transform: capitalize; }
+.status { background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 1px 10px; font-size: .8rem; text-transform: capitalize; }
 .addrs { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-top: 16px; }
 @media (max-width: 600px) {
   .head { gap: 12px; }

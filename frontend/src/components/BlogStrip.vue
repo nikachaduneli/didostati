@@ -13,7 +13,7 @@ api('/blogs/', { params: { limit: 3 } }).then((d) => (posts.value = d)).catch(()
     <div class="wrap">
       <div class="section-head">
         <h2>{{ t('From our blog') }}</h2>
-        <RouterLink to="/blog" class="link">{{ t('All posts →') }}</RouterLink>
+        <RouterLink to="/blog" class="link">{{ t('All posts') }}</RouterLink>
       </div>
       <div class="grid">
         <BlogCard v-for="p in posts" :key="p.id" :post="p" />
@@ -23,5 +23,6 @@ api('/blogs/', { params: { limit: 3 } }).then((d) => (posts.value = d)).catch(()
 </template>
 
 <style scoped>
-.strip { padding: 48px 0; border-top: 1px solid var(--line); }
+.strip { padding: 64px 0; background: var(--card); border-top: 1px solid var(--line); }
+@media (max-width: 600px) { .strip { padding: 44px 0; } }
 </style>

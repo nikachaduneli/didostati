@@ -40,7 +40,7 @@ cart.refresh()
 .layout { display: grid; grid-template-columns: 1fr 320px; gap: 24px; align-items: start; }
 .line { display: grid; grid-template-columns: 80px 1fr 80px 90px; gap: 16px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--line); }
 .line:last-child { border-bottom: 0; }
-.line img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; }
+.line img { width: 80px; height: 80px; object-fit: cover; border-radius: var(--radius); }
 .sum { text-align: right; font-weight: 700; }
 .tot { display: flex; justify-content: space-between; font-size: 1.2rem; }
 .name { min-width: 0; overflow-wrap: anywhere; }
