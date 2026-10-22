@@ -75,6 +75,9 @@ function add(go) {
   <p v-if="missing" class="card center">{{ t('This product could not be found.') }} <RouterLink to="/shop" class="link">{{ t('Back to shop') }}</RouterLink></p>
   <div v-else-if="product" class="product">
     <div>
+      <div class="stage">
+      <!-- Faint, heavily blurred copy of the picture: tints the area behind it with the picture's colours. -->
+      <Transition name="glow"><img v-if="shown" :key="shown" :src="shown" class="glow" alt="" aria-hidden="true" /></Transition>
       <div class="main" tabindex="0" @keydown.left="go(active - 1)" @keydown.right="go(active + 1)" @touchstart.passive="touchStart" @touchend="touchEnd">
         <img v-if="shown" :src="shown" :alt="product.name" />
         <template v-if="gallery.length > 1">
@@ -82,6 +85,7 @@ function add(go) {
           <button type="button" class="nav next" :aria-label="t('Next image')" @click="go(active + 1)">›</button>
           <span class="count">{{ active + 1 }} / {{ gallery.length }}</span>
         </template>
+      </div>
       </div>
       <div v-if="gallery.length > 1" class="thumbs">
         <img v-for="(g, i) in gallery" :key="g.id" :src="g.image" :class="{ on: i === active }" :alt="`${product.name} ${i + 1}`" @click="active = i" />
@@ -130,6 +134,11 @@ function add(go) {
 
 <style scoped>
 .product { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.stage { position: relative; isolation: isolate; }
+.glow { position: absolute; inset: -6%; width: 112%; height: 112%; object-fit: cover; z-index: -1; pointer-events: none; filter: blur(480px) saturate(1.4); opacity: 1; }
+.glow-enter-active, .glow-leave-active { transition: opacity .6s ease; }
+.glow-enter-from, .glow-leave-to { opacity: 0; }
+@media (prefers-reduced-motion: reduce) { .glow-enter-active, .glow-leave-active { transition: none; } }
 .main { position: relative; outline: none; aspect-ratio: 1; background: var(--line); border-radius: var(--radius); overflow: hidden; }
 .main img { width: 100%; height: 100%; object-fit: cover; }
 .nav { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border: 0; border-radius: 50%; background: rgba(255,255,255,.85); font-size: 1.6rem; line-height: 1; cursor: pointer; }
@@ -150,7 +159,7 @@ function add(go) {
 .qty { max-width: 110px; }
 .actions { display: flex; gap: 12px; flex-wrap: wrap; }
 .product > * { min-width: 0; }
-@media (max-width: 800px) { .product { grid-template-columns: 1fr; gap: 20px; } }
+@media (max-width: 800px) { .product { grid-template-columns: 1fr; gap: 20px; overflow-x: clip; } }
 @media (max-width: 600px) {
   .big { font-size: 1.4rem; }
   .thumbs { flex-wrap: nowrap; overflow-x: auto; }
