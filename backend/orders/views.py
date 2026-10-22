@@ -1,10 +1,11 @@
 import json
 import logging
 
-from django.conf import settings
 from rest_framework import permissions, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
+
+from core import config
 
 from . import models, payments, serializers as s, services
 from .emails import send_order_notification
@@ -29,7 +30,7 @@ class PaymentMethods(APIView):
 
     def get(self, request):
         methods = [{'key': g.key, 'label': g.label} for g in payments.enabled_gateways()]
-        if settings.PAYMENT_CASH_ON_DELIVERY:
+        if config.get('PAYMENT_CASH_ON_DELIVERY'):
             methods.append({'key': 'cod', 'label': 'Pay on delivery'})
         return Response(methods)
 

@@ -14,6 +14,8 @@ import uuid
 from django.conf import settings
 from django.core.cache import cache
 
+from core import config
+
 PAID, FAILED, PENDING = 'paid', 'failed', 'pending'
 
 
@@ -67,12 +69,12 @@ class BankOfGeorgia(Gateway):
     token_url = 'https://oauth2.bog.ge/auth/realms/bog/protocol/openid-connect/token'
 
     def enabled(self):
-        return bool(settings.BOG_CLIENT_ID and settings.BOG_CLIENT_SECRET)
+        return bool(config.get('BOG_CLIENT_ID') and config.get('BOG_CLIENT_SECRET'))
 
     def _token(self):
         token = cache.get('bog_token')
         if not token:
-            basic = base64.b64encode(f'{settings.BOG_CLIENT_ID}:{settings.BOG_CLIENT_SECRET}'.encode()).decode()
+            basic = base64.b64encode(f'{config.get('BOG_CLIENT_ID')}:{config.get('BOG_CLIENT_SECRET')}'.encode()).decode()
             res = http('POST', self.token_url, headers={'Authorization': f'Basic {basic}'},
                        form={'grant_type': 'client_credentials'})
             token = res['access_token']
@@ -123,18 +125,18 @@ class TBC(Gateway):
     base = 'https://api.tbcbank.ge/v1/tpay'
 
     def enabled(self):
-        return bool(settings.TBC_API_KEY and settings.TBC_CLIENT_ID and settings.TBC_CLIENT_SECRET)
+        return bool(config.get('TBC_API_KEY') and config.get('TBC_CLIENT_ID') and config.get('TBC_CLIENT_SECRET'))
 
     def _headers(self):
         token = cache.get('tbc_token')
         if not token:
             # The docs spell the field `client_id`, TBC's own samples `client_Id`: send both to be safe.
-            res = http('POST', f'{self.base}/access-token', headers={'apikey': settings.TBC_API_KEY},
-                       form={'client_id': settings.TBC_CLIENT_ID, 'client_Id': settings.TBC_CLIENT_ID,
-                             'client_secret': settings.TBC_CLIENT_SECRET})
+            res = http('POST', f'{self.base}/access-token', headers={'apikey': config.get('TBC_API_KEY')},
+                       form={'client_id': config.get('TBC_CLIENT_ID'), 'client_Id': config.get('TBC_CLIENT_ID'),
+                             'client_secret': config.get('TBC_CLIENT_SECRET')})
             token = res['access_token']
             cache.set('tbc_token', token, 3600)  # tokens last a day
-        return {'apikey': settings.TBC_API_KEY, 'Authorization': f'Bearer {token}'}
+        return {'apikey': config.get('TBC_API_KEY'), 'Authorization': f'Bearer {token}'}
 
     def create(self, order, return_url, callback_url, lang):
         body = {

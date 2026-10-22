@@ -174,9 +174,10 @@ STATIC_URL = 'static/'
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
+# core.mail.mailer picks SMTP or console from the SMTP_* values below (or their admin overrides).
 MAILERS = {
     'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+        'BACKEND': 'core.mail.mailer',
     },
 }
 
@@ -242,19 +243,16 @@ FB_DIDOSTATI = 'https://www.facebook.com/didostati.collection'
 # --- Order notification email -------------------------------------------------
 # Every new order is emailed to ORDER_NOTIFICATION_EMAIL (leave empty to disable).
 # Fill in SMTP_HOST to really send mail; until then messages are printed to the console.
+# These, and the payment settings below, can be overridden in the admin (Core > Configs); see core/config.py.
 ORDER_NOTIFICATION_EMAIL = ''
 ORDER_CURRENCY = '₾'
 SMTP_HOST = 'smtp.gmail.com'
 SMTP_PORT = 587
 SMTP_USER = ''
 SMTP_PASSWORD = ''
-DEFAULT_FROM_EMAIL = SMTP_USER or 'orders@didostati.local'
-if SMTP_HOST:
-    MAILERS = {'default': {
-        'BACKEND': 'django.core.mail.backends.smtp.EmailBackend',
-        'OPTIONS': {'host': SMTP_HOST, 'port': SMTP_PORT, 'username': SMTP_USER,
-                    'password': SMTP_PASSWORD, 'use_tls': True},
-    }}
+SMTP_USE_TLS = True
+# Sender address; when empty the SMTP user is used.
+DEFAULT_FROM_EMAIL = ''
 
 
 # --- Card payments --------------------------------------------------------------

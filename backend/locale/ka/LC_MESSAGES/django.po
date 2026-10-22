@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: didostati\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-08 16:18+0000\n"
+"POT-Creation-Date: 2026-10-22 20:43+0000\n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,7 +44,7 @@ msgstr "მაგ. სახლი, სამსახური"
 msgid "default"
 msgstr "ძირითადი"
 
-#: accounts/models.py:34 core/models.py:44 shop/models.py:174
+#: accounts/models.py:34 core/models.py:45 shop/models.py:174
 #: shop/models.py:191
 msgid "address"
 msgstr "მისამართი"
@@ -94,8 +94,8 @@ msgstr "სახელი (ქართულად)"
 msgid "image"
 msgstr "სურათი"
 
-#: catalog/models.py:16 catalog/models.py:48 shop/models.py:44
-#: shop/models.py:77
+#: catalog/models.py:16 catalog/models.py:48 core/models.py:56
+#: shop/models.py:44 shop/models.py:77
 msgid "description"
 msgstr "აღწერა"
 
@@ -149,7 +149,8 @@ msgid "discount percent"
 msgstr "ფასდაკლება (%)"
 
 #: catalog/models.py:53 shop/models.py:82
-#, no-python-format
+#, fuzzy, python-format
+#| msgid "0 = no discount. E.g. 20 takes 20% off the price."
 msgid "0 = no discount. E.g. 20 takes 20% off the price."
 msgstr "0 = ფასდაკლების გარეშე. მაგ. 20 ნიშნავს 20%-იან ფასდაკლებას."
 
@@ -246,7 +247,7 @@ msgstr "პროდუქტის სურათები"
 msgid "logo"
 msgstr "ლოგო"
 
-#: content/models.py:10 core/models.py:21 shop/models.py:42 shop/models.py:76
+#: content/models.py:10 core/models.py:22 shop/models.py:42 shop/models.py:76
 #: shop/models.py:119 shop/models.py:138
 msgid "slug"
 msgstr "სლაგი"
@@ -377,29 +378,51 @@ msgstr "პარტნიორი"
 msgid "partners"
 msgstr "პარტნიორები"
 
-#: core/models.py:42 shop/models.py:172
+#: core/models.py:43 shop/models.py:172
 msgid "full name"
 msgstr "სრული სახელი"
 
-#: core/models.py:43 shop/models.py:173
+#: core/models.py:44 shop/models.py:173
 msgid "phone"
 msgstr "ტელეფონი"
 
-#: core/models.py:45 shop/models.py:175
+#: core/models.py:46 shop/models.py:175
 msgid "address 2"
 msgstr "მისამართი 2"
 
-#: core/models.py:46 shop/models.py:176
+#: core/models.py:47 shop/models.py:176
 msgid "city"
 msgstr "ქალაქი"
 
-#: core/models.py:47 shop/models.py:177
+#: core/models.py:48 shop/models.py:177
 msgid "postal code"
 msgstr "საფოსტო ინდექსი"
 
-#: core/models.py:48 shop/models.py:178
+#: core/models.py:49 shop/models.py:178
 msgid "country"
 msgstr "ქვეყანა"
+
+#: core/models.py:57
+msgid "key"
+msgstr "გასაღები"
+
+#: core/models.py:58
+msgid "value"
+msgstr "მნიშვნელობა"
+
+#: core/models.py:58
+#, fuzzy
+#| msgid "Leave empty to use the product's price."
+msgid "Leave empty to use the default from settings.py."
+msgstr "დატოვეთ ცარიელი ნაგულისხმევი მნიშველობის გამოსაყენებლად."
+
+#: core/models.py:62
+msgid "config"
+msgstr "პარამეტრი"
+
+#: core/models.py:63
+msgid "configs"
+msgstr "პარამეტრები"
 
 #: orders/admin.py:17
 msgid "line total"

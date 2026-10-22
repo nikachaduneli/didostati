@@ -1,7 +1,8 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 from django.utils.translation import get_language, gettext_lazy as _
-
+from . import config
 
 class Translatable:
     """`tr('name')` returns `name_ka` when the active language is Georgian and it is filled in."""
@@ -49,3 +50,25 @@ class AddressFields(models.Model):
 
     class Meta:
         abstract = True
+
+class Config(models.Model):
+    """Overrides a value from settings.py (see core/config.py for the keys allowed)."""
+    description = models.CharField(_('description'), max_length=200, blank=True, null=True)
+    key = models.CharField(_('key'), max_length=64, unique=True, choices=[(k, k) for k in config.KEYS])
+    value = models.TextField(_('value'), blank=True, help_text=_('Leave empty to use the default from settings.py.'))
+
+    class Meta:
+        ordering = ('key',)
+        verbose_name = _('config')
+        verbose_name_plural = _('configs')
+
+    def __str__(self):
+        return self.key
+
+    def clean(self):
+        if not self.value.strip():
+            return
+        try:
+            config.cast(self.key, self.value)
+        except ValueError as e:
+            raise ValidationError({'value': str(e)})

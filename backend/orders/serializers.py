@@ -1,10 +1,10 @@
-from django.conf import settings
 from django.db import transaction
 
 from rest_framework import serializers
 
 from catalog.models import Product
 from catalog.serializers import ColorSerializer, ProductListSerializer, SizeSerializer
+from core import config
 from . import models
 from . import payments
 
@@ -86,7 +86,7 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def validate_provider(self, value):
         allowed = {g.key for g in payments.enabled_gateways()}
-        if settings.PAYMENT_CASH_ON_DELIVERY:
+        if config.get('PAYMENT_CASH_ON_DELIVERY'):
             allowed.add('cod')
         if value not in allowed:
             raise serializers.ValidationError('Choose a payment method.')

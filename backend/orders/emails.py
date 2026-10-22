@@ -1,17 +1,18 @@
 import logging
 
-from django.conf import settings
 from django.core.mail import send_mail
+
+from core import config
 
 logger = logging.getLogger(__name__)
 
 
 def send_order_notification(order):
     """Email the shop owner the details of a new order. Never raises: a mail problem must not fail checkout."""
-    recipient = settings.ORDER_NOTIFICATION_EMAIL
+    recipient = config.get('ORDER_NOTIFICATION_EMAIL')
     if not recipient:
         return
-    cur = settings.ORDER_CURRENCY
+    cur = config.get('ORDER_CURRENCY')
     lines = []
     for i in order.items.all():
         options = ', '.join(x for x in (i.color_name, i.size_name) if x)
@@ -33,7 +34,8 @@ def send_order_notification(order):
         f'  Account: {order.user.email if order.user else "guest"}',
         *(['', f'Note: {order.note}'] if order.note else []),
     ])
+    sender = config.get('DEFAULT_FROM_EMAIL') or config.get('SMTP_USER') or 'orders@didostati.local'
     try:
-        send_mail(f'New order #{order.pk} - {order.total} {cur}', body, None, [recipient])
+        send_mail(f'New order #{order.pk} - {order.total} {cur}', body, sender, [recipient])
     except Exception:
         logger.exception('Could not send notification for order #%s', order.pk)

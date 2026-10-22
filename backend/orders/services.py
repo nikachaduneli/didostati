@@ -1,10 +1,10 @@
 import logging
 from urllib.parse import quote
 
-from django.conf import settings
 from django.core import signing
 from django.db import transaction
 
+from core import config
 from . import payments
 from .emails import send_order_notification
 from .models import Order
@@ -26,7 +26,7 @@ def order_from_token(token):
 
 
 def site_url(request):
-    return (settings.SITE_URL or request.build_absolute_uri('/')).rstrip('/')
+    return (config.get('SITE_URL') or request.build_absolute_uri('/')).rstrip('/')
 
 
 def start_payment(order, gateway, request, lang):

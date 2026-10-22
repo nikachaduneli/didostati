@@ -1,8 +1,8 @@
-from django.conf import settings
 from rest_framework import generics, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from core import config
 from core.cache import CachedResponseMixin
 
 from . import models, serializers as s
@@ -49,4 +49,4 @@ class PartnerList(CachedResponseMixin, generics.ListAPIView):
 
 class SocialLinks(APIView):
     def get(self, request):
-        return Response({'facebook': settings.FB_DIDOSTATI, 'instagram': settings.IG_DIDOSTATI})
+        return Response({'facebook': config.get('FB_DIDOSTATI'), 'instagram': config.get('IG_DIDOSTATI')})
