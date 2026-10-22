@@ -5,6 +5,7 @@ class CoreConfig(AppConfig):
     name = 'core'
 
     def ready(self):
-        from . import cache, signals
+        from . import cache, images, signals
         signals.connect()
+        images.connect()
         cache.connect()
