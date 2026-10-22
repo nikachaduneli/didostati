@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from rest_framework import permissions, status, viewsets
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -47,4 +47,13 @@ class Me(APIView):
 
     def delete(self, request):  # logout
         tokens.revoke(request.auth)
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class AdminSession(APIView):
+    """Signs a staff user into the Django admin (session cookie) using their shop login token."""
+    permission_classes = [permissions.IsAdminUser]
+
+    def post(self, request):
+        login(request._request, request.user)
         return Response(status=status.HTTP_204_NO_CONTENT)

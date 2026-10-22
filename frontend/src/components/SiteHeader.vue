@@ -5,6 +5,7 @@ import { useCart } from '../stores/cart'
 import { useAuth } from '../stores/auth'
 import { lang, setLang, t } from '../i18n'
 import logo from '../assets/logo.jpg'
+import { api } from '../api'
 
 const cart = useCart()
 const auth = useAuth()
@@ -15,6 +16,12 @@ const open = ref(false)
 function search() {
   router.push({ path: '/shop', query: q.value.trim() ? { search: q.value.trim() } : {} })
   open.value = false
+}
+
+// The admin uses a session cookie, not our bearer token: create the session first so no second login is needed.
+async function openAdmin() {
+  await api('/auth/admin-session/', { method: 'POST' }).catch(() => {})
+  window.location.href = '/admin/'
 }
 </script>
 
@@ -29,7 +36,7 @@ function search() {
         <RouterLink to="/blog">{{ t('Blog') }}</RouterLink>
         <RouterLink to="/about">{{ t('About us') }}</RouterLink>
         <RouterLink to="/contact">{{ t('Contact') }}</RouterLink>
-        <a v-if="auth.user?.is_staff" href="/admin/" class="admin-link">{{ t('Admin') }}</a>
+        <a v-if="auth.user?.is_staff" href="/admin/" class="admin-link" @click.prevent="openAdmin">{{ t('Admin') }}</a>
       </nav>
       <form class="search" @submit.prevent="search">
         <input v-model="q" type="search" :placeholder="t('Search products…')" :aria-label="t('Search products')" />
