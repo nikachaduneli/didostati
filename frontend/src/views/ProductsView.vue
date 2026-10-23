@@ -45,6 +45,7 @@ function apply(p = 1) {
   })
 }
 watch(() => route.fullPath, load)
+watch(current, (c) => c && (document.title = `${c.name} · Didostati`))
 </script>
 
 <template>

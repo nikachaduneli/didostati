@@ -264,6 +264,9 @@ DEFAULT_FROM_EMAIL = ''
 # Banks only call back to a public HTTPS address, so set this in production (e.g. 'https://didostati.ge').
 # When empty the address of the current request is used.
 SITE_URL = ''
+# Shown by search engines for pages without a description of their own (the home page, the shop).
+SITE_DESCRIPTION = 'Didostati: plates, cups, tablecloths and tableware sets. Shop online.'
+SITE_DESCRIPTION_KA = 'დიდოსტატი: თეფშები, ფინჯნები, სუფრები და სასადილო ნაკრებები. იყიდეთ ონლაინ.'
 
 # Bank of Georgia - https://api.bog.ge/docs/en/payments/introduction
 BOG_CLIENT_ID = ''

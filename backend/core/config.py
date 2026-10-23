@@ -22,7 +22,10 @@ KEYS = {
     'SMTP_USER': 'Login for the mail server, usually the full email address.',
     'SMTP_PASSWORD': 'Password for the mail server (for Gmail an app password).',
     'SMTP_USE_TLS': 'Encrypt the connection to the mail server: true or false.',
-    'SITE_URL': 'Public address of the site, e.g. https://didostati.ge. Used for bank return and callback URLs.',
+    'SITE_URL': 'Public address of the site, e.g. https://didostati.ge. Used for bank return and callback URLs, '
+                'links in sitemap.xml and the addresses shown to search engines.',
+    'SITE_DESCRIPTION': 'Text search engines show under the site name (English, about 150 characters).',
+    'SITE_DESCRIPTION_KA': 'Text search engines show under the site name (Georgian, about 150 characters).',
     'BOG_CLIENT_ID': 'Bank of Georgia payments: client ID.',
     'BOG_CLIENT_SECRET': 'Bank of Georgia payments: client secret.',
     'TBC_API_KEY': 'TBC Bank payments: API key.',
