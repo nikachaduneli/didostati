@@ -39,7 +39,7 @@ onMounted(async () => {
 footer { background: var(--wine); color: var(--on-wine); padding: 40px 0 32px; }
 footer::before { content: ''; display: block; height: 2px; background: var(--hem); margin-top: -40px; margin-bottom: 40px; }
 .wrap { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; justify-content: space-between; }
-.logo { display: inline-flex; align-items: center; gap: 10px; font-family: var(--display); font-stretch: 68%; font-size: 1.6rem; font-weight: 700; line-height: 1; color: var(--gold-light); }
+.logo { display: inline-flex; align-items: center; gap: 10px; font-family: var(--logo); font-size: 1.6rem; font-weight: 400; line-height: 1; color: var(--gold-light); }
 .mark { width: 36px; height: 36px; background: var(--gold-light); -webkit-mask: var(--mark) center / contain no-repeat; mask: var(--mark) center / contain no-repeat; }
 nav { display: flex; gap: 22px; }
 nav a { color: rgba(248, 243, 241, .8); }

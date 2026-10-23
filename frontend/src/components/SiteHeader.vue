@@ -63,7 +63,7 @@ async function openAdmin() {
 .top { position: sticky; top: 0; z-index: 10; background: var(--wine); color: var(--on-wine); }
 .top::after { content: ''; display: block; height: 2px; background: var(--hem); }
 .bar { display: flex; align-items: center; gap: 28px; min-height: 72px; flex-wrap: wrap; }
-.logo { display: inline-flex; align-items: center; gap: 10px; font-family: var(--display); font-stretch: 68%; font-size: 1.75rem; font-weight: 700; line-height: 1; color: var(--gold-light); }
+.logo { display: inline-flex; align-items: center; gap: 10px; font-family: var(--logo); font-size: 1.75rem; font-weight: 400; line-height: 1; color: var(--gold-light); }
 .mark { width: 40px; height: 40px; background: var(--gold-light); -webkit-mask: var(--mark) center / contain no-repeat; mask: var(--mark) center / contain no-repeat; transition: transform .6s ease; }
 .logo:hover .mark { transform: rotate(90deg); }
 nav { display: flex; gap: 22px; }
