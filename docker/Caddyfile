@@ -1,4 +1,8 @@
-didostati.com, www.didostati.ge {
+didostati.co {
     encode gzip
     reverse_proxy nginx:80
+}
+
+www.didostati.co {
+    redir https://didostati.co{uri} permanent
 }
