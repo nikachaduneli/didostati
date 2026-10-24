@@ -19,6 +19,7 @@ const routes = [
   { path: '/blog/:slug', component: () => import('./views/BlogView.vue') },
   { path: '/about', component: () => import('./views/PageView.vue'), props: { slug: 'about' } },
   { path: '/contact', component: () => import('./views/PageView.vue'), props: { slug: 'contact', form: true } },
+  { path: '/page/:slug', component: () => import('./views/PageView.vue'), props: (route) => ({ slug: route.params.slug }) },
   { path: '/:pathMatch(.*)*', component: () => import('./views/NotFoundView.vue') },
 ]
 

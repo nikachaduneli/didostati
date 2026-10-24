@@ -7,7 +7,15 @@ from . import models
 
 @admin.register(models.Page)
 class PageAdmin(admin.ModelAdmin):
-    list_display = ('title', 'slug', 'updated_at')
+    list_display = ('__str__', 'slug', 'show_in_menu', 'ordering', 'updated_at')
+    list_editable = ('show_in_menu', 'ordering')
+    list_filter = ('show_in_menu',)
+    fields = ('title', 'title_ka', 'slug', 'parent', 'show_in_menu', 'ordering', 'content', 'content_ka')
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == 'parent':
+            kwargs['queryset'] = models.Page.objects.filter(parent=None)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
 
 @admin.register(models.Blog)

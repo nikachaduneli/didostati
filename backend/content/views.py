@@ -14,6 +14,13 @@ class PageDetail(CachedResponseMixin, generics.RetrieveAPIView):
     queryset = models.Page.objects.all()
 
 
+class MenuPages(CachedResponseMixin, generics.ListAPIView):
+    """Top-level pages of the header menu, each with its submenu."""
+    serializer_class = s.MenuPageSerializer
+    queryset = models.Page.objects.filter(show_in_menu=True, parent=None).prefetch_related('children')
+    pagination_class = None
+
+
 class BlogViewSet(CachedResponseMixin, viewsets.ReadOnlyModelViewSet):
     lookup_field = 'slug'
     queryset = models.Blog.objects.filter(is_published=True)

@@ -11,6 +11,18 @@ class PageSerializer(TranslatedMixin, serializers.ModelSerializer):
         translated = ('title', 'content')
 
 
+class MenuPageSerializer(TranslatedMixin, serializers.ModelSerializer):
+    children = serializers.SerializerMethodField()
+
+    class Meta:
+        model = models.Page
+        fields = ('slug', 'title', 'path', 'children')
+        translated = ('title',)
+
+    def get_children(self, page):
+        return MenuPageSerializer([c for c in page.children.all() if c.show_in_menu], many=True).data
+
+
 class BlogListSerializer(TranslatedMixin, serializers.ModelSerializer):
     cover_image = ImageField()
 

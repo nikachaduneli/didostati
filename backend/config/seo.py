@@ -77,7 +77,7 @@ def page_meta(path, lang, base):
         return Meta(index=False)
 
     kind, _, slug = path.strip('/').partition('/')
-    if kind in ('about', 'contact') and not slug:
+    if kind in Page.SHORT_SLUGS and not slug:
         page = Page.objects.filter(slug=kind).first()
         return Meta(page.tr('title'), plain(page.tr('content'))) if page else Meta(kind.title())
     if not slug or '/' in slug:
@@ -105,6 +105,12 @@ def page_meta(path, lang, base):
                  'category': category.tr('name'), 'offers': offer},
                 crumbs((category.tr('name'), base + lang_path(f'/category/{category.slug}', lang)), (p.tr('name'), url)),
             ])
+
+    if kind == 'page':
+        page = Page.objects.filter(slug=slug).exclude(slug__in=Page.SHORT_SLUGS).first()
+        if not page:
+            return Meta(index=False, found=False)
+        return Meta(page.tr('title'), plain(page.tr('content')))
 
     if kind == 'category':
         c = Category.objects.filter(slug=slug).first()
@@ -173,8 +179,7 @@ def render_index(html, request, url_path):
 def sitemap_entries():
     """Every indexable page (without language prefix) with its last change date when known."""
     yield from ((p, None) for p in STATIC_PAGES)
-    yield from ((f'/{slug}', None) for slug in Page.objects.filter(slug__in=('about', 'contact'))
-                .values_list('slug', flat=True))
+    yield from ((p.path, p.updated_at) for p in Page.objects.only('slug', 'updated_at'))
     yield from ((f'/category/{slug}', None) for slug in Category.objects.values_list('slug', flat=True))
     for slug, created in Product.objects.filter(is_active=True).values_list('slug', 'created_at'):
         yield f'/product/{slug}', created

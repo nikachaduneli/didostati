@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django_ckeditor_5.fields import CKEditor5Field
@@ -6,8 +7,15 @@ from core.models import SluggedModel, Translatable
 
 
 class Page(Translatable, models.Model):
-    """Editable static page (About us, Contact...). The slug is chosen by hand: the menu links to it."""
-    slug = models.SlugField(_('slug'), unique=True, help_text=_('"about" and "contact" are used by the menu.'))
+    """Editable static page (About us, Contact...), listed in the header menu, optionally under another page."""
+    # These two have their own short address (/about, /contact); every other page lives at /page/<slug>.
+    SHORT_SLUGS = ('about', 'contact')
+
+    slug = models.SlugField(_('slug'), unique=True, help_text=_('Part of the address: /page/<slug>. "about" and "contact" get /about and /contact.'))
+    parent = models.ForeignKey('self', models.CASCADE, null=True, blank=True, related_name='children',
+                               verbose_name=_('parent page'), help_text=_('Shows this page in the submenu of the parent.'))
+    show_in_menu = models.BooleanField(_('show in menu'), default=True)
+    ordering = models.PositiveIntegerField(_('ordering'), default=0)
     title = models.CharField(_('title'), max_length=200)
     title_ka = models.CharField(_('title (Georgian)'), max_length=200, blank=True)
     content = CKEditor5Field(_('content'), blank=True, config_name='default')
@@ -15,11 +23,23 @@ class Page(Translatable, models.Model):
     updated_at = models.DateTimeField(_('updated at'), auto_now=True)
 
     class Meta:
+        ordering = ['ordering', 'id']
         verbose_name = _('page')
         verbose_name_plural = _('pages')
 
     def __str__(self):
-        return self.title
+        return f'{self.parent} › {self.title}' if self.parent_id else self.title
+
+    @property
+    def path(self):
+        return f'/{self.slug}' if self.slug in self.SHORT_SLUGS else f'/page/{self.slug}'
+
+    def clean(self):
+        # The menu has a single level of submenus.
+        if self.parent_id and (self.parent_id == self.pk or self.parent.parent_id):
+            raise ValidationError({'parent': _('Choose a top-level page.')})
+        if self.parent_id and self.pk and self.children.exists():
+            raise ValidationError({'parent': _('This page has subpages, so it cannot go under another page.')})
 
 
 class Blog(SluggedModel):

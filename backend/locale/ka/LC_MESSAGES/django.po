@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: didostati\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-22 20:43+0000\n"
+"POT-Creation-Date: 2026-10-24 10:07+0000\n"
 "Language: ka\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -78,18 +78,18 @@ msgid "Apply bulk discount to selected products"
 msgstr "შერჩეულ პროდუქტებზე ფასდაკლების დადება"
 
 #: catalog/models.py:13 catalog/models.py:30 catalog/models.py:46
-#: catalog/models.py:84 content/models.py:47 content/models.py:83
+#: catalog/models.py:84 content/models.py:67 content/models.py:103
 #: shop/models.py:40 shop/models.py:58 shop/models.py:74 shop/models.py:157
 msgid "name"
 msgstr "სახელი"
 
 #: catalog/models.py:14 catalog/models.py:31 catalog/models.py:47
-#: catalog/models.py:85 content/models.py:84 shop/models.py:41
+#: catalog/models.py:85 content/models.py:104 shop/models.py:41
 #: shop/models.py:59 shop/models.py:75
 msgid "name (Georgian)"
 msgstr "სახელი (ქართულად)"
 
-#: catalog/models.py:15 catalog/models.py:137 content/models.py:63
+#: catalog/models.py:15 catalog/models.py:137 content/models.py:83
 #: shop/models.py:43 shop/models.py:106
 msgid "image"
 msgstr "სურათი"
@@ -162,7 +162,7 @@ msgstr "პოპულარული"
 msgid "Show in \"Popular products\" on the main page."
 msgstr "გამოჩნდეს მთავარ გვერდზე „პოპულარული პროდუქტების“ სექციაში."
 
-#: catalog/models.py:57 content/models.py:70 content/models.py:88
+#: catalog/models.py:57 content/models.py:90 content/models.py:108
 #: shop/models.py:86
 msgid "active"
 msgstr "აქტიური"
@@ -171,7 +171,7 @@ msgstr "აქტიური"
 msgid "Untick to hide from the shop."
 msgstr "მოხსენით მონიშვნა, რომ მაღაზიაში არ გამოჩნდეს."
 
-#: catalog/models.py:58 content/models.py:35 content/models.py:50
+#: catalog/models.py:58 content/models.py:55 content/models.py:70
 #: orders/models.py:24 shop/models.py:87 shop/models.py:145 shop/models.py:160
 #: shop/models.py:212
 msgid "created at"
@@ -243,138 +243,168 @@ msgstr "პროდუქტის სურათი"
 msgid "product images"
 msgstr "პროდუქტის სურათები"
 
-#: content/admin.py:51 content/models.py:85
+#: content/admin.py:59 content/models.py:105
 msgid "logo"
 msgstr "ლოგო"
 
-#: content/models.py:10 core/models.py:22 shop/models.py:42 shop/models.py:76
+#: content/models.py:14 core/models.py:22 shop/models.py:42 shop/models.py:76
 #: shop/models.py:119 shop/models.py:138
 msgid "slug"
 msgstr "სლაგი"
 
-#: content/models.py:10 shop/models.py:119
-msgid "\"about\" and \"contact\" are used by the menu."
-msgstr "„about“ და „contact“ გამოიყენება მენიუში."
+#: content/models.py:14
+msgid ""
+"Part of the address: /page/<slug>. \"about\" and \"contact\" get /about and /"
+"contact."
+msgstr ""
+"მისამართის ნაწილი: /page/<slug>. \"about\" და \"contact\" იღებენ /about და /"
+"contact მისამართებს."
 
-#: content/models.py:11 content/models.py:27 content/models.py:64
+#: content/models.py:16
+msgid "parent page"
+msgstr "მშობელი გვერდი"
+
+#: content/models.py:16
+msgid "Shows this page in the submenu of the parent."
+msgstr "ეს გვერდი გამოჩნდება მშობელი გვერდის ქვემენიუში."
+
+#: content/models.py:17
+msgid "show in menu"
+msgstr "მენიუში ჩვენება"
+
+#: content/models.py:18
+#, fuzzy
+#| msgid "order"
+msgid "ordering"
+msgstr "რიგითობა"
+
+#: content/models.py:19 content/models.py:47 content/models.py:84
 #: shop/models.py:120 shop/models.py:136
 msgid "title"
 msgstr "სათაური"
 
-#: content/models.py:12 content/models.py:28 content/models.py:65
+#: content/models.py:20 content/models.py:48 content/models.py:85
 #: shop/models.py:121 shop/models.py:137
 msgid "title (Georgian)"
 msgstr "სათაური (ქართულად)"
 
-#: content/models.py:13 content/models.py:32 shop/models.py:122
+#: content/models.py:21 content/models.py:52 shop/models.py:122
 #: shop/models.py:142
 msgid "content"
 msgstr "შინაარსი"
 
-#: content/models.py:14 content/models.py:33 shop/models.py:123
+#: content/models.py:22 content/models.py:53 shop/models.py:123
 #: shop/models.py:143
 msgid "content (Georgian)"
 msgstr "შინაარსი (ქართულად)"
 
-#: content/models.py:15 shop/models.py:124
+#: content/models.py:23 shop/models.py:124
 msgid "updated at"
 msgstr "განახლების დრო"
 
-#: content/models.py:18 shop/models.py:127
+#: content/models.py:27 shop/models.py:127
 msgid "page"
 msgstr "გვერდი"
 
-#: content/models.py:19 shop/models.py:128
+#: content/models.py:28 shop/models.py:128
 msgid "pages"
 msgstr "გვერდები"
 
-#: content/models.py:29 shop/models.py:139
+#: content/models.py:40
+msgid "Choose a top-level page."
+msgstr "აირჩიეთ ზედა დონის გვერდი."
+
+#: content/models.py:42
+msgid "This page has subpages, so it cannot go under another page."
+msgstr "ამ გვერდს აქვს ქვეგვერდები, ამიტომ სხვა გვერდის ქვეშ ვერ მოთავსდება."
+
+#: content/models.py:49 shop/models.py:139
 msgid "cover image"
 msgstr "ყდის სურათი"
 
-#: content/models.py:30 shop/models.py:140
+#: content/models.py:50 shop/models.py:140
 msgid "excerpt"
 msgstr "მოკლე აღწერა"
 
-#: content/models.py:30 shop/models.py:140
+#: content/models.py:50 shop/models.py:140
 msgid "Short teaser shown on cards."
 msgstr "მოკლე ტექსტი, რომელიც ბარათებზე ჩანს."
 
-#: content/models.py:31 shop/models.py:141
+#: content/models.py:51 shop/models.py:141
 msgid "excerpt (Georgian)"
 msgstr "მოკლე აღწერა (ქართულად)"
 
-#: content/models.py:34 shop/models.py:144
+#: content/models.py:54 shop/models.py:144
 msgid "published"
 msgstr "გამოქვეყნებული"
 
-#: content/models.py:39 shop/models.py:149
+#: content/models.py:59 shop/models.py:149
 msgid "blog post"
 msgstr "ბლოგის პოსტი"
 
-#: content/models.py:40 shop/models.py:150
+#: content/models.py:60 shop/models.py:150
 msgid "blog posts"
 msgstr "ბლოგის პოსტები"
 
-#: content/models.py:48 orders/models.py:14 shop/models.py:158
+#: content/models.py:68 orders/models.py:14 shop/models.py:158
 #: shop/models.py:208
 msgid "email"
 msgstr "ელფოსტა"
 
-#: content/models.py:49 shop/models.py:159
+#: content/models.py:69 shop/models.py:159
 msgid "message"
 msgstr "შეტყობინება"
 
-#: content/models.py:54 shop/models.py:164
+#: content/models.py:74 shop/models.py:164
 msgid "contact message"
 msgstr "შეტყობინება კონტაქტიდან"
 
-#: content/models.py:55 shop/models.py:165
+#: content/models.py:75 shop/models.py:165
 msgid "contact messages"
 msgstr "შეტყობინებები კონტაქტიდან"
 
-#: content/models.py:63
+#: content/models.py:83
 msgid "Wide image, e.g. 1920x700."
 msgstr "ფართო სურათი, მაგ. 1920x700."
 
-#: content/models.py:66
+#: content/models.py:86
 msgid "subtitle"
 msgstr "ქვესათაური"
 
-#: content/models.py:67
+#: content/models.py:87
 msgid "subtitle (Georgian)"
 msgstr "ქვესათაური (ქართულად)"
 
-#: content/models.py:68 content/models.py:86
+#: content/models.py:88 content/models.py:106
 msgid "link"
 msgstr "ბმული"
 
-#: content/models.py:68
+#: content/models.py:88
 msgid "Optional, e.g. /shop or https://..."
 msgstr "არასავალდებულო, მაგ. /shop ან https://..."
 
-#: content/models.py:69 content/models.py:87 orders/models.py:28
+#: content/models.py:89 content/models.py:107 orders/models.py:28
 #: shop/models.py:216
 msgid "order"
 msgstr "შეკვეთა"
 
-#: content/models.py:74
+#: content/models.py:94
 msgid "slide"
 msgstr "სლაიდი"
 
-#: content/models.py:75
+#: content/models.py:95
 msgid "slides"
 msgstr "სლაიდები"
 
-#: content/models.py:86
+#: content/models.py:106
 msgid "Optional website address, e.g. https://example.com"
 msgstr "არასავალდებულო ვებსაიტის მისამართი, მაგ. https://example.com"
 
-#: content/models.py:92
+#: content/models.py:112
 msgid "partner"
 msgstr "პარტნიორი"
 
-#: content/models.py:93
+#: content/models.py:113
 msgid "partners"
 msgstr "პარტნიორები"
 
@@ -527,6 +557,10 @@ msgstr "შეკვეთის პროდუქტები"
 #: shop/admin.py:7 templates/admin/base_site.html:68
 msgid "Didostati administration"
 msgstr "დიდოსტატი — ადმინისტრირება"
+
+#: shop/models.py:119
+msgid "\"about\" and \"contact\" are used by the menu."
+msgstr "„about“ და „contact“ გამოიყენება მენიუში."
 
 #: templates/admin/base_site.html:4
 msgid "Django site admin"
