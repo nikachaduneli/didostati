@@ -114,11 +114,11 @@ function add(go) {
           <button v-for="c in product.colors" :key="c.id" type="button" :title="c.name" :class="{ on: color?.id === c.id }" :style="{ background: c.hex }" @click="pick(c)"></button>
         </div>
       </div>
-      <div v-if="product.sizes?.length" class="field">
-        <label>{{ t('Size:') }} <span class="muted">{{ size?.name }}</span></label>
-        <div class="sizes">
-          <button v-for="s in product.sizes" :key="s.id" type="button" :class="{ on: size?.id === s.id }" @click="size = s">{{ s.name }}</button>
-        </div>
+      <div v-if="product.sizes?.length" class="field size">
+        <label for="s">{{ t('Size:') }}</label>
+        <select id="s" v-model="size">
+          <option v-for="s in product.sizes" :key="s.id" :value="s">{{ s.name }}</option>
+        </select>
       </div>
       <div class="field qty">
         <label for="q">{{ t('Quantity') }}</label>
@@ -156,10 +156,7 @@ h1 { font-size: 3rem; margin-bottom: .3em; }
 .swatches button { width: 34px; height: 34px; border-radius: 50%; border: 0; cursor: pointer; padding: 0; box-shadow: inset 0 0 0 1px rgba(43, 26, 33, .2); outline: 2px solid transparent; outline-offset: 3px; }
 .swatches button.on { outline-color: var(--wine); }
 .swatches button:focus-visible { outline-color: var(--gold); }
-.sizes { display: flex; gap: 8px; flex-wrap: wrap; }
-.sizes button { min-width: 44px; padding: 8px 14px; border: 1px solid var(--field-line); border-radius: var(--radius); background: var(--card); color: var(--ink); font: inherit; cursor: pointer; }
-.sizes button:hover { border-color: var(--wine); }
-.sizes button.on { border-color: var(--wine); background: var(--wine); color: var(--on-wine); }
+.size { max-width: 240px; }
 .qty { max-width: 110px; }
 .actions { display: flex; gap: 12px; flex-wrap: wrap; }
 .product > * { min-width: 0; }
