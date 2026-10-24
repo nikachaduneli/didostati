@@ -1,5 +1,8 @@
+import secrets
+
 from django.conf import settings
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from catalog.models import Product
@@ -11,6 +14,8 @@ class Order(AddressFields):
                 ('delivered', _('Delivered')), ('cancelled', _('Cancelled'))]
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True,
                              on_delete=models.SET_NULL, related_name='orders')
+    number = models.CharField(_('order number'), max_length=30, unique=True, editable=False,
+                              help_text=_('Reference shown to the customer, e.g. DS-261024-48213.'))
     email = models.EmailField(_('email'))
     note = models.TextField(_('note'), blank=True)
     status = models.CharField(_('status'), max_length=20, choices=STATUSES, default='new')
@@ -20,6 +25,8 @@ class Order(AddressFields):
     payment_status = models.CharField(_('payment status'), max_length=10, choices=PAYMENT_STATUSES,
                                       default='pending', blank=True)
     payment_id = models.CharField(_('payment ID'), max_length=100, blank=True)
+    language = models.CharField(_('language'), max_length=5, choices=settings.LANGUAGES,
+                                default=settings.LANGUAGE_CODE, help_text=_('Site language the customer ordered in.'))
     total = models.DecimalField(_('total'), max_digits=12, decimal_places=2, default=0)
     created_at = models.DateTimeField(_('created at'), auto_now_add=True)
 
@@ -29,7 +36,21 @@ class Order(AddressFields):
         verbose_name_plural = _('orders')
 
     def __str__(self):
-        return f'Order #{self.pk}'
+        return f'Order {self.number}'
+
+    def save(self, *args, **kwargs):
+        if not self.number:
+            self.number = new_order_number()
+        super().save(*args, **kwargs)
+
+
+def new_order_number(day=None):
+    """`DS-YYMMDD-NNNNN`: the date reads naturally, the random part hides how many orders the shop gets."""
+    day = day or timezone.localdate()
+    while True:
+        number = f'{settings.ORDER_NUMBER_PREFIX}-{day:%y%m%d}-{secrets.randbelow(90000) + 10000}'
+        if not Order.objects.filter(number=number).exists():
+            return number
 
 
 class OrderItem(models.Model):

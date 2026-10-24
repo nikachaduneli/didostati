@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.db import transaction
+from django.utils import translation
 
 from rest_framework import serializers
 
@@ -75,9 +77,9 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Order
-        fields = ('id', 'email', 'full_name', 'phone', 'line1', 'line2', 'city', 'postal_code',
+        fields = ('id', 'number', 'email', 'full_name', 'phone', 'line1', 'line2', 'city', 'postal_code',
                   'country', 'note', 'status', 'payment_status', 'total', 'created_at', 'items', 'lines', 'provider')
-        read_only_fields = ('id', 'status', 'payment_status', 'total', 'created_at')
+        read_only_fields = ('id', 'number', 'status', 'payment_status', 'total', 'created_at')
 
     def validate_lines(self, value):
         if not value:
@@ -106,8 +108,10 @@ class OrderSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'lines': 'None of the products are available any more.'})
         request = self.context['request']
         user = request.user if request.user.is_authenticated else None
+        lang = (translation.get_language() or '').split('-')[0]
+        lang = lang if lang in dict(settings.LANGUAGES) else settings.LANGUAGE_CODE
         order = models.Order.objects.create(
-            user=user, total=total, payment_status='' if provider == 'cod' else 'pending', **validated)
+            user=user, total=total, language=lang, payment_status='' if provider == 'cod' else 'pending', **validated)
         models.OrderItem.objects.bulk_create([
             models.OrderItem(order=order, product=l['_product'], product_name=l['_product'].name,
                              color_name=l['_color'].name if l['_color'] else '',

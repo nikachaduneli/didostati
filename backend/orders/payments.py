@@ -88,7 +88,7 @@ class BankOfGeorgia(Gateway):
     def create(self, order, return_url, callback_url, lang):
         body = {
             'callback_url': callback_url,
-            'external_order_id': str(order.pk),
+            'external_order_id': order.number,
             'redirect_urls': {'success': return_url, 'fail': return_url},
             'purchase_units': {
                 'currency': 'GEL',
@@ -143,8 +143,8 @@ class TBC(Gateway):
             'amount': {'currency': 'GEL', 'total': float(order.total)},
             'returnurl': return_url,
             'callbackUrl': callback_url,
-            'merchantPaymentId': str(order.pk),
-            'description': f'Didostati order #{order.pk}'[:30],
+            'merchantPaymentId': order.number,
+            'description': f'Didostati {order.number}'[:30],
             'language': 'KA' if lang == 'ka' else 'EN',
             'preAuth': False,
         }
@@ -176,7 +176,7 @@ class Mock(Gateway):
         return settings.PAYMENT_MOCK_ENABLED
 
     def create(self, order, return_url, callback_url, lang):
-        return f'mock-{order.pk}', return_url
+        return f'mock-{order.number}', return_url
 
     def status(self, payment_id):
         return PAID

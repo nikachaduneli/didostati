@@ -246,6 +246,8 @@ FB_DIDOSTATI = 'https://www.facebook.com/didostati.collection'
 # These, and the payment settings below, can be overridden in the admin (Core > Configs); see core/config.py.
 ORDER_NOTIFICATION_EMAIL = ''
 ORDER_CURRENCY = '₾'
+# Order numbers look like DS-261024-48213 (prefix, date, random part).
+ORDER_NUMBER_PREFIX = 'DS'
 SMTP_HOST = 'smtp.gmail.com'
 SMTP_PORT = 587
 SMTP_USER = ''

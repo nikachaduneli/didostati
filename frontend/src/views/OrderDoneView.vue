@@ -14,7 +14,7 @@ try {
   <div class="card center done">
     <h1>{{ t('Thank you! 🎉') }}</h1>
     <template v-if="order">
-      <p>{{ t('Order') }} {{ t("has been placed. We'll contact you at") }} <strong>{{ order.email }}</strong>.</p>
+      <p>{{ t('Order') }} <strong>{{ order.number }}</strong> {{ t("has been placed. We'll contact you at") }} <strong>{{ order.email }}</strong>.</p>
       <p class="muted">{{ t('Total:') }} {{ money(order.total) }} · {{ t('Delivering to') }} {{ order.line1 }}, {{ order.city }}</p>
     </template>
     <p v-else>{{ t('Your order has been placed.') }}</p>

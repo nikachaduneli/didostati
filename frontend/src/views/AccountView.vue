@@ -65,7 +65,7 @@ async function logout() {
     <p v-if="orders && !orders.length" class="card center">{{ t('No orders yet.') }} <RouterLink to="/shop" class="link">{{ t('Start shopping') }}</RouterLink></p>
     <div v-for="o in orders" :key="o.id" class="card order">
       <div class="oh">
-        <strong>{{ t('Order') }} #{{ o.id }}</strong>
+        <strong>{{ t('Order') }} {{ o.number }}</strong>
         <span class="muted">{{ fdate(o.created_at) }}</span>
         <span class="status">{{ t(o.status) }}</span>
         <span v-if="o.payment_status === 'pending'" class="muted">{{ t('Awaiting payment') }}</span>
