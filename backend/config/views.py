@@ -1,5 +1,6 @@
 from django.conf import settings
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponsePermanentRedirect
+from django.templatetags.static import static
 
 from . import seo
 
@@ -14,8 +15,13 @@ def spa(request, path=''):
 
 
 def sitemap(request):
-    return HttpResponse(seo.sitemap_xml(request), content_type='application/xml')
+    return HttpResponse(seo.sitemap_xml(request), content_type='application/xml; charset=utf-8')
 
 
 def robots(request):
     return HttpResponse(seo.robots_txt(request), content_type='text/plain')
+
+
+def favicon(request):
+    # Search engines and browsers look for /favicon.ico at the root; the file lives with the other static files.
+    return HttpResponsePermanentRedirect(static('favicon.ico'))
